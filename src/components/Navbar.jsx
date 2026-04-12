@@ -32,7 +32,6 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
 
-        {/* Logo */}
         <Link to="/" className="group">
           <img
             src={logo}
@@ -41,7 +40,6 @@ function Navbar() {
           />
         </Link>
 
-        {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-1 list-none">
           {navLinks.map(({ to, label }) => {
             const active = location.pathname === to
@@ -62,7 +60,6 @@ function Navbar() {
           })}
         </ul>
 
-        {/* Right */}
         <div className="flex items-center gap-4">
           <Link
             to="/contact-us"
@@ -83,7 +80,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
         ${menuOpen ? 'max-h-72 border-t border-white/[0.04]' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">

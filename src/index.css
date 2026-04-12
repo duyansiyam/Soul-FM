@@ -9,8 +9,10 @@
   --color-soul-dark: #111111;
   --color-soul-card: #161616;
   --color-soul-border: #1e1e1e;
-  --color-soul-accent: #e8ff00;
+  --color-soul-accent: #c0392b;
+  --color-soul-accent-dim: #8b1a12;
   --color-soul-muted: #4a4a4a;
+  --color-soul-grey: #2e2e2e;
   --color-soul-white: #f0f0f0;
 
   --text-display: 5rem;
@@ -72,23 +74,19 @@ body::before {
   transform: translate(-50%, -50%);
 }
 
-/* Cursor hover state — add class via JS on <a> and <button> hover */
 body.cursor-hover #cursor { transform: translate(-50%, -50%) scale(3); }
-body.cursor-hover #cursor-ring { border-color: rgba(240,240,240,0.05); }
+body.cursor-hover #cursor-ring { border-color: rgba(240,240,240,0.04); }
 
-/* Breathing dot (for any future use) */
 @keyframes soulfm-breathe {
   0%, 100% { opacity: 0.2; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.4); }
 }
 
-/* Selection */
 ::selection {
   background-color: var(--color-soul-accent);
-  color: #0a0a0a;
+  color: #f0f0f0;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -99,7 +97,6 @@ body.cursor-hover #cursor-ring { border-color: rgba(240,240,240,0.05); }
   background: rgba(255,255,255,0.12);
 }
 
-/* Page fade in */
 #root {
   animation: soulfm-fadein 0.7s ease both;
 }
