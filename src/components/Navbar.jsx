@@ -92,7 +92,7 @@ function Navbar() {
               transition-all duration-200 ease-out"
           >
             Get In Touch
-           <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-500 border border-white/40" />
+           <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />
           </Link>
 
           <button
@@ -136,7 +136,7 @@ function Navbar() {
                 transition-all duration-150"
             >
               Get In Touch
-              <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-black border border-white/40" />
+              <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />
             </Link>
           </li>
         </ul>
