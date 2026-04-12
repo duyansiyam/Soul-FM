@@ -219,7 +219,74 @@ export default function AboutUs() {
 
         </div>
       </section>
+{/* ── MEET THE TEAM ── */}
+<section className="max-w-7xl mx-auto px-6 lg:px-10 py-24 border-t border-white/[0.04]">
 
+  <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+    <div>
+      <p className="text-[9px] tracking-[0.22em] uppercase text-white/20 mb-4">
+        The Team
+      </p>
+
+      <h2
+        style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+          fontWeight: 400,
+          letterSpacing: '-0.02em',
+        }}
+        className="text-white/80"
+      >
+        Meet the Team
+      </h2>
+    </div>
+  </div>
+
+  {/* TEAM GRID */}
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+    {[
+      { name: 'DJ One', role: 'Host' },
+      { name: 'DJ Two', role: 'Music Director' },
+      { name: 'DJ Three', role: 'Producer' },
+      { name: 'DJ Four', role: 'Radio Host' },
+    ].map((member) => (
+      <div
+        key={member.name}
+        className="group relative aspect-[3/4] bg-[var(--color-soul-card)] rounded-xl overflow-hidden border border-white/[0.04] hover:border-white/[0.08] transition-all duration-300"
+      >
+
+        {/* IMAGE PLACEHOLDER */}
+        <div className="absolute inset-0 flex items-center justify-center text-white/15 text-[10px] tracking-[0.2em] uppercase">
+          Image
+        </div>
+
+        {/* GRADIENT OVERLAY */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* TEXT */}
+        <div className="absolute bottom-0 left-0 p-5">
+          <p className="text-[10px] tracking-[0.12em] uppercase text-white/30 mb-1">
+            {member.role}
+          </p>
+
+          <p
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.1rem',
+              fontWeight: 400,
+            }}
+            className="text-white/70 group-hover:text-white transition-colors duration-300"
+          >
+            {member.name}
+          </p>
+        </div>
+
+      </div>
+    ))}
+
+  </div>
+</section>
       {/* ── CTA ── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-28 text-center border-t border-white/[0.04]">
         <h2 className="text-white/80 text-5xl mb-10 font-[var(--font-heading)]">
