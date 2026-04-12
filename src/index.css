@@ -99,6 +99,11 @@ body.cursor-hover #cursor-ring {
   border-color: rgba(240, 240, 240, 0.12);
 }
 
+/* ─── Stacking Cards Animation ─────────────────── */
+ul#cards {
+  padding-bottom: calc(var(--numcards, 4) * 1.5rem);
+}
+
 /* Click pulse */
 body #cursor.cursor-click {
   transform: translate(-50%, -50%) scale(0.6);

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import logo from '../assets/LOGO NAV.png'
 
 const navLinks = [
@@ -14,10 +14,27 @@ function Navbar() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => {
+      const currentY = window.scrollY
+      const prev = lastScrollY.current
+
+      // Show navbar when scrolling up, hide when scrolling down
+      if (currentY < prev - 5) {
+        setVisible(true)
+      } else if (currentY > prev + 5 && currentY > 80) {
+        setVisible(false)
+        setMenuOpen(false)
+      }
+
+      setScrolled(currentY > 20)
+      lastScrollY.current = currentY
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -25,6 +42,7 @@ function Navbar() {
     <nav
       style={{ fontFamily: 'var(--font-body)' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500
+        ${visible ? 'translate-y-0' : '-translate-y-full'}
         ${scrolled
           ? 'border-b border-white/[0.05] bg-[var(--color-soul-black)]/98 backdrop-blur-2xl'
           : 'border-b border-transparent bg-transparent'
@@ -47,8 +65,10 @@ function Navbar() {
               <li key={to}>
                 <Link
                   to={to}
-                  className={`relative block px-4 py-2 text-[12px] tracking-[0.08em] uppercase rounded-md transition-colors duration-200
-                    ${active ? 'text-[var(--color-soul-white)]' : 'text-white/25 hover:text-white/55'}`}
+                  className={`relative block px-4 py-2 text-[12px] tracking-[0.08em] uppercase rounded-md
+                    transition-all duration-200 ease-out
+                    hover:scale-105 hover:brightness-125
+                    ${active ? 'text-white' : 'text-white/60 hover:text-white'}`}
                 >
                   {label}
                   {active && (
@@ -63,9 +83,14 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             to="/contact-us"
-            className="hidden sm:block text-[11px] tracking-[0.12em] uppercase text-white/20 hover:text-white/50 transition-colors duration-200"
+            className="hidden sm:block text-[11px] tracking-[0.12em] uppercase
+              px-4 py-2 rounded-md font-semibold
+              bg-white text-black
+              hover:bg-black hover:text-white hover:scale-105
+              border border-white
+              transition-all duration-200 ease-out"
           >
-            Contact
+            Get In Touch
           </Link>
 
           <button
@@ -81,7 +106,7 @@ function Navbar() {
       </div>
 
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
-        ${menuOpen ? 'max-h-72 border-t border-white/[0.04]' : 'max-h-0'}`}>
+        ${menuOpen ? 'max-h-80 border-t border-white/[0.04]' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">
           {navLinks.map(({ to, label }) => {
             const active = location.pathname === to
@@ -90,8 +115,9 @@ function Navbar() {
                 <Link
                   to={to}
                   onClick={() => setMenuOpen(false)}
-                  className={`block px-3 py-2.5 text-[12px] tracking-[0.08em] uppercase rounded-md transition-colors duration-150
-                    ${active ? 'text-white' : 'text-white/25 hover:text-white/55'}`}
+                  className={`block px-3 py-2.5 text-[12px] tracking-[0.08em] uppercase rounded-md
+                    transition-all duration-150
+                    ${active ? 'text-white' : 'text-white/55 hover:text-white'}`}
                 >
                   {label}
                 </Link>
@@ -102,9 +128,12 @@ function Navbar() {
             <Link
               to="/contact-us"
               onClick={() => setMenuOpen(false)}
-              className="block px-3 py-2 text-[11px] tracking-[0.12em] uppercase text-white/20 hover:text-white/50 transition-colors duration-150"
+              className="inline-block px-4 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold
+                bg-white text-black rounded-md border border-white
+                hover:bg-black hover:text-white
+                transition-all duration-150"
             >
-              Contact
+              Get In Touch
             </Link>
           </li>
         </ul>
