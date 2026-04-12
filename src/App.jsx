@@ -7,7 +7,6 @@ import NowPlaying from './pages/NowPlaying'
 import ShowSchedule from './pages/ShowSchedule'
 import CommunityConnections from './pages/CommunityConnections'
 import ContactUs from './pages/ContactUs'
-import './App.css'
 
 function App() {
   return (
