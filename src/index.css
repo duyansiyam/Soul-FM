@@ -29,6 +29,11 @@ html {
   cursor: none;
 }
 
+/* Hide native cursor on all elements too */
+*, *::before, *::after {
+  cursor: none !important;
+}
+
 body {
   font-family: var(--font-body);
   font-weight: 300;
@@ -49,59 +54,87 @@ body::before {
   opacity: 0.5;
 }
 
-/* Cursor */
+/* ─── Cursor ─────────────────────────────────────── */
+
 #cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 5px; height: 5px;
-  background: #f0f0f0;
+  width: 6px; height: 6px;
+  background: var(--color-soul-white);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
-  transition: transform 0.1s ease;
+  /* no mix-blend-mode — invisible on near-black bg */
+  transition:
+    transform  0.08s ease,
+    opacity    0.2s  ease,
+    background 0.2s  ease;
+  will-change: left, top, transform;
 }
 
 #cursor-ring {
   position: fixed;
   top: 0; left: 0;
   width: 28px; height: 28px;
-  border: 1px solid rgba(240,240,240,0.15);
+  border: 1px solid rgba(240, 240, 240, 0.35);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
   transform: translate(-50%, -50%);
+  transition:
+    border-color 0.2s ease,
+    transform    0.15s ease,
+    opacity      0.2s  ease;
+  will-change: left, top, transform;
 }
 
-body.cursor-hover #cursor { transform: translate(-50%, -50%) scale(3); }
-body.cursor-hover #cursor-ring { border-color: rgba(240,240,240,0.04); }
-
-@keyframes soulfm-breathe {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.4); }
+/* Hover state */
+body.cursor-hover #cursor {
+  transform: translate(-50%, -50%) scale(3);
+  background: var(--color-soul-white);
 }
+body.cursor-hover #cursor-ring {
+  transform: translate(-50%, -50%) scale(1.4);
+  border-color: rgba(240, 240, 240, 0.12);
+}
+
+/* Click pulse */
+body #cursor.cursor-click {
+  transform: translate(-50%, -50%) scale(0.6);
+}
+
+/* ─── Selection ──────────────────────────────────── */
 
 ::selection {
   background-color: var(--color-soul-accent);
   color: #f0f0f0;
 }
 
+/* ─── Scrollbar ──────────────────────────────────── */
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
 
-#root {
-  animation: soulfm-fadein 0.7s ease both;
+/* ─── Root animations ────────────────────────────── */
+
+@keyframes soulfm-breathe {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.4); }
 }
 
 @keyframes soulfm-fadein {
   from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#root {
+  animation: soulfm-fadein 0.7s ease both;
 }
