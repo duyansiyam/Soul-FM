@@ -22,10 +22,11 @@ function Navbar() {
       const currentY = window.scrollY
       const prev = lastScrollY.current
 
-      // Show navbar when scrolling up, hide when scrolling down
-      if (currentY < prev - 5) {
+      if (currentY <= 80) {
         setVisible(true)
-      } else if (currentY > prev + 5 && currentY > 80) {
+      } else if (currentY < prev - 5) {
+        setVisible(true)
+      } else if (currentY > prev + 5) {
         setVisible(false)
         setMenuOpen(false)
       }
@@ -43,7 +44,7 @@ function Navbar() {
       style={{ fontFamily: 'var(--font-body)' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500
         ${visible ? 'translate-y-0' : '-translate-y-full'}
-        ${scrolled
+        ${scrolled || menuOpen
           ? 'border-b border-white/[0.05] bg-[var(--color-soul-black)]/98 backdrop-blur-2xl'
           : 'border-b border-transparent bg-transparent'
         }`}
@@ -83,7 +84,7 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             to="/contact-us"
-            className="hidden sm:block text-[11px] tracking-[0.12em] uppercase
+            className="hidden sm:block relative text-[11px] tracking-[0.12em] uppercase
               px-4 py-2 rounded-md font-semibold
               bg-white text-black
               hover:bg-black hover:text-white hover:scale-105
@@ -91,6 +92,7 @@ function Navbar() {
               transition-all duration-200 ease-out"
           >
             Get In Touch
+           <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-500 border border-white/40" />
           </Link>
 
           <button
@@ -128,12 +130,13 @@ function Navbar() {
             <Link
               to="/contact-us"
               onClick={() => setMenuOpen(false)}
-              className="inline-block px-4 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold
+              className="inline-block relative px-4 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold
                 bg-white text-black rounded-md border border-white
                 hover:bg-black hover:text-white
                 transition-all duration-150"
             >
               Get In Touch
+              <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-black border border-white/40" />
             </Link>
           </li>
         </ul>
