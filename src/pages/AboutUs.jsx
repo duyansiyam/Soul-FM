@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"; // useRef kept for useReveal's IntersectionObserver
 import heroVideo from "../assets/hero-video2.mp4";
 import rnbPhoto from "../assets/rnb.jpg";
+import rnbPhoto2 from "../assets/rhythm.jpg";
 
 // Nav height constant — matches Navbar h-16 (64px)
 const NAV_H = 64;
@@ -438,7 +439,7 @@ export default function AboutUs() {
             borderRadius: 2, overflow: "hidden",
           }}>
             <img
-              src={rnbPhoto}
+              src={rnbPhoto2}
               alt="Soul FM — feel the rhythm"
               style={{
                 position: "absolute", inset: 0,
