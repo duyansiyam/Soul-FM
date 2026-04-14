@@ -13,11 +13,9 @@ const styles = `
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
-    /* offset for fixed navbar (h-16 = 64px) */
     padding-top: 64px;
   }
 
-  /* Grain overlay */
   .sfm-contact::before {
     content: '';
     position: fixed;
@@ -28,29 +26,26 @@ const styles = `
     opacity: 0.5;
   }
 
-  /* Rusty red ambient background glow */
   .sfm-bg-glow {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 70% 55% at 15% 10%,  rgba(160, 40, 25, 0.18) 0%, transparent 65%),
-      radial-gradient(ellipse 50% 40% at 85% 80%,  rgba(130, 28, 18, 0.13) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 30% at 50% 50%,  rgba(100, 20, 12, 0.07) 0%, transparent 70%);
+      radial-gradient(ellipse 70% 55% at 15% 10%, rgba(160, 40, 25, 0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 40% at 85% 80%, rgba(130, 28, 18, 0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(100, 20, 12, 0.07) 0%, transparent 70%);
   }
 
-  /* All content sits above glow */
   .sfm-header,
   .sfm-body {
     position: relative;
     z-index: 1;
   }
 
-  /* ── Fade-up animation ─────────────────── */
   @keyframes sfm-fadeUp {
     from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .sfm-anim-0 { animation: sfm-fadeUp 0.6s 0.10s ease both; }
@@ -59,7 +54,6 @@ const styles = `
   .sfm-anim-3 { animation: sfm-fadeUp 0.6s 0.40s ease both; }
   .sfm-anim-4 { animation: sfm-fadeUp 0.6s 0.50s ease both; }
 
-  /* ── Header ───────────────────────────── */
   .sfm-header {
     padding: 3rem 3rem 2rem;
     border-bottom: 1px solid #1e1e1e;
@@ -94,13 +88,11 @@ const styles = `
     margin: 0;
   }
 
-  /* ── Body grid ────────────────────────── */
   .sfm-body {
     display: grid;
     grid-template-columns: 1fr 1.6fr;
   }
 
-  /* ── Info panel ───────────────────────── */
   .sfm-info {
     padding: 3rem;
     border-right: 1px solid #1e1e1e;
@@ -152,7 +144,6 @@ const styles = `
     opacity: 0.6;
   }
 
-  /* ── Form panel ───────────────────────── */
   .sfm-form-wrap {
     padding: 3rem;
   }
@@ -190,7 +181,7 @@ const styles = `
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 300;
-    padding: 0.6rem 0;
+    padding: 0.75rem 0;
     outline: none;
     transition: border-color 0.2s;
     width: 100%;
@@ -204,10 +195,38 @@ const styles = `
     animation: sfm-shake 0.3s ease;
   }
 
+  select.sfm-input {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2rem;
+    color: #f7f7f7;
+    background-color: transparent;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #c0392b 50%),
+      linear-gradient(135deg, #c0392b 50%, transparent 50%);
+    background-position:
+      calc(100% - 14px) calc(50% - 2px),
+      calc(100% - 8px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+  }
+
+  select.sfm-input option {
+    background: #111111;
+    color: #f0f0f0;
+  }
+
+  select.sfm-input option:checked {
+    background: #c0392b;
+    color: #ffffff;
+  }
+
   @keyframes sfm-shake {
     0%, 100% { transform: translateX(0); }
-    25%       { transform: translateX(-4px); }
-    75%       { transform: translateX(4px); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
   }
 
   textarea.sfm-input {
@@ -215,7 +234,18 @@ const styles = `
     line-height: 1.6;
   }
 
-  /* ── Button ───────────────────────────── */
+  .sfm-selected-email {
+    margin-top: -0.4rem;
+    margin-bottom: 1rem;
+    font-size: 12px;
+    color: #8f8f8f;
+  }
+
+  .sfm-selected-email strong {
+    color: #c0392b;
+    font-weight: 400;
+  }
+
   .sfm-btn {
     margin-top: 0.5rem;
     display: inline-flex;
@@ -239,7 +269,9 @@ const styles = `
   .sfm-btn::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
     width: 0;
     background: #c0392b;
     transition: width 0.3s ease;
@@ -259,7 +291,6 @@ const styles = `
 
   .sfm-btn:hover .sfm-btn-arrow { transform: translateX(4px); }
 
-  /* ── Success ──────────────────────────── */
   .sfm-success {
     margin-top: 1.5rem;
     font-family: 'Cormorant Garamond', serif;
@@ -269,15 +300,29 @@ const styles = `
     animation: sfm-fadeUp 0.5s ease both;
   }
 
-  /* ── Responsive ───────────────────────── */
   @media (max-width: 700px) {
-    .sfm-body          { grid-template-columns: 1fr; }
-    .sfm-info          { border-right: none; border-bottom: 1px solid #1e1e1e; padding: 2rem; }
-    .sfm-form-wrap     { padding: 2rem; }
-    .sfm-header        { padding: 2rem 2rem 1.5rem; }
-    .sfm-field-row     { grid-template-columns: 1fr; }
+    .sfm-body { grid-template-columns: 1fr; }
+    .sfm-info { border-right: none; border-bottom: 1px solid #1e1e1e; padding: 2rem; }
+    .sfm-form-wrap { padding: 2rem; }
+    .sfm-header { padding: 2rem 2rem 1.5rem; }
+    .sfm-field-row { grid-template-columns: 1fr; }
   }
 `;
+
+const inquiryOptions = {
+  general: {
+    label: "General Inquiry",
+    email: "inquiries@soulfm.com",
+  },
+  advertising: {
+    label: "Advertising",
+    email: "ads@soulfm.com",
+  },
+  songRequest: {
+    label: "Song Request",
+    email: "requests@soulfm.com",
+  },
+};
 
 function ContactUs() {
   const [fields, setFields] = useState({
@@ -285,60 +330,73 @@ function ContactUs() {
     lastName: "",
     email: "",
     phone: "",
+    inquiryType: "general",
     message: "",
   });
+
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+
+  const selectedEmail = inquiryOptions[fields.inquiryType].email;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFields((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: false }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: false }));
+    }
   };
 
   const handleSubmit = () => {
     const newErrors = {};
     Object.entries(fields).forEach(([key, val]) => {
-      if (!val.trim()) newErrors[key] = true;
+      if (!String(val).trim()) newErrors[key] = true;
     });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setSubmitted(false);
       return;
     }
 
     const subject = encodeURIComponent(
-      `Soul FM Contact – ${fields.firstName} ${fields.lastName}`
+      `Soul FM Contact – ${inquiryOptions[fields.inquiryType].label} – ${fields.firstName} ${fields.lastName}`
     );
+
     const body = encodeURIComponent(
-      `Name: ${fields.firstName} ${fields.lastName}\nEmail: ${fields.email}\nPhone: ${fields.phone}\n\nMessage:\n${fields.message}`
+      `Inquiry Type: ${inquiryOptions[fields.inquiryType].label}
+To: ${selectedEmail}
+
+Name: ${fields.firstName} ${fields.lastName}
+Email: ${fields.email}
+Phone: ${fields.phone}
+
+Message:
+${fields.message}`
     );
-    window.location.href = `mailto:anzelbotin@gmail.com?subject=${subject}&body=${body}`;
+
+    window.location.href = `mailto:${selectedEmail}?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
   return (
     <>
       <style>{styles}</style>
-      <div className="sfm-contact">
 
-        {/* Ambient rusty red glow — sits behind everything */}
+      <div className="sfm-contact">
         <div className="sfm-bg-glow" />
 
-        {/* Header */}
         <header className="sfm-header">
           <p className="sfm-eyebrow sfm-anim-0">Soul FM · San Bernardino, CA</p>
           <h1 className="sfm-title sfm-anim-1">
             Get in <em>Touch</em>
           </h1>
           <p className="sfm-subtitle sfm-anim-2">
-            Throwback radio, worldwide. We'd love to hear from you.
+            Throwback radio, worldwide. We&apos;d love to hear from you.
           </p>
         </header>
 
         <div className="sfm-body">
-
-          {/* Info panel */}
           <aside className="sfm-info sfm-anim-3">
             <div>
               <p className="sfm-info-label">Phone</p>
@@ -371,19 +429,19 @@ function ContactUs() {
             <div className="sfm-divider" />
 
             <div>
-              <p className="sfm-info-label">Email</p>
+              <p className="sfm-info-label">Main Email</p>
               <p className="sfm-info-value">
-                <a href="mailto:anzelbotin@gmail.com">anzelbotin@gmail.com</a>
+                <a href="mailto:inquiries@soulfm.com">inquiries@soulfm.com</a>
               </p>
             </div>
           </aside>
 
-          {/* Form panel */}
           <section className="sfm-form-wrap sfm-anim-4">
-
             <div className="sfm-field-row">
               <div className="sfm-field">
-                <label className="sfm-label">First Name <span>*</span></label>
+                <label className="sfm-label">
+                  First Name <span>*</span>
+                </label>
                 <input
                   className={`sfm-input${errors.firstName ? " error" : ""}`}
                   name="firstName"
@@ -393,8 +451,11 @@ function ContactUs() {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="sfm-field">
-                <label className="sfm-label">Last Name <span>*</span></label>
+                <label className="sfm-label">
+                  Last Name <span>*</span>
+                </label>
                 <input
                   className={`sfm-input${errors.lastName ? " error" : ""}`}
                   name="lastName"
@@ -408,7 +469,9 @@ function ContactUs() {
 
             <div className="sfm-field-row">
               <div className="sfm-field">
-                <label className="sfm-label">Email <span>*</span></label>
+                <label className="sfm-label">
+                  Email <span>*</span>
+                </label>
                 <input
                   className={`sfm-input${errors.email ? " error" : ""}`}
                   name="email"
@@ -418,8 +481,11 @@ function ContactUs() {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="sfm-field">
-                <label className="sfm-label">Phone <span>*</span></label>
+                <label className="sfm-label">
+                  Phone <span>*</span>
+                </label>
                 <input
                   className={`sfm-input${errors.phone ? " error" : ""}`}
                   name="phone"
@@ -432,7 +498,29 @@ function ContactUs() {
             </div>
 
             <div className="sfm-field">
-              <label className="sfm-label">Message <span>*</span></label>
+              <label className="sfm-label">
+                Inquiry Type <span>*</span>
+              </label>
+              <select
+                className={`sfm-input${errors.inquiryType ? " error" : ""}`}
+                name="inquiryType"
+                value={fields.inquiryType}
+                onChange={handleChange}
+              >
+                <option value="general">General Inquiry</option>
+                <option value="advertising">Advertising</option>
+                <option value="songRequest">Song Request</option>
+              </select>
+            </div>
+
+            <p className="sfm-selected-email">
+              This message will be sent to: <strong>{selectedEmail}</strong>
+            </p>
+
+            <div className="sfm-field">
+              <label className="sfm-label">
+                Message <span>*</span>
+              </label>
               <textarea
                 className={`sfm-input${errors.message ? " error" : ""}`}
                 name="message"
@@ -450,10 +538,9 @@ function ContactUs() {
 
             {submitted && (
               <p className="sfm-success">
-                Message sent — we'll tune in soon.
+                Message prepared — we&apos;ll tune in soon.
               </p>
             )}
-
           </section>
         </div>
       </div>
