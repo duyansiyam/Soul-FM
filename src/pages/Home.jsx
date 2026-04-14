@@ -3,6 +3,7 @@ import StackingCards   from '../components/HomeComponents/StackingCards'
 import AboutStrip      from '../components/HomeComponents/AboutStrip'
 import FullwidthBanner from '../components/HomeComponents/FullwidthBanner'
 import ValuesSection   from '../components/HomeComponents/ValuesSection'
+import AppBanner from '../components/HomeComponents/AppBanner'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
     >
       <HeroSection />
       <StackingCards />
+      <AppBanner /> 
       <AboutStrip />
       <FullwidthBanner />
       <ValuesSection />
