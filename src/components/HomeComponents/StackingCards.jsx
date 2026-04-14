@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import cardImg1 from '../../assets/card-about.jpg'
@@ -13,84 +13,84 @@ const cards = [
   { to: '/about#djs',     label: 'Meet the DJs', sub: 'The Team',    img: cardImg4 },
 ]
 
-const CARD_TOP = 80 // how far from top cards rest when stacked
+const css = `
+  #cards {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    padding-bottom: calc(var(--numcards) * 10vh);
+
+    /* This element is tracked for the scroll animation */
+    view-timeline-name: --cards-element-scrolls-in-body;
+    view-timeline-axis: block;
+  }
+
+  .card {
+    --index0: calc(var(--index) - 1);
+    --reverse-index: calc(var(--numcards) - var(--index0));
+    --reverse-index0: calc(var(--reverse-index) - 1);
+
+    padding-top: 1.5rem;
+  }
+
+  .card__content {
+    position: sticky;
+    top: calc(var(--index0) * 16px + 80px);
+    z-index: var(--index);
+    transform-origin: 50% 0%;
+
+    --start-range: calc(var(--index0) / var(--numcards) * 100%);
+    --end-range: calc(var(--index) / var(--numcards) * 100%);
+
+    animation: card-scale linear forwards;
+    animation-timeline: --cards-element-scrolls-in-body;
+    animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+  }
+
+  @keyframes card-scale {
+    to {
+      transform: scale(calc(1.1 - 0.1 * var(--reverse-index)));
+      filter: brightness(calc(1 - 0.15 * var(--reverse-index0)));
+    }
+  }
+`
 
 export default function StackingCards() {
-  const cardsRef = useRef(null)
+  const numCards = cards.length
 
   useEffect(() => {
-    if (!cardsRef.current || !('ViewTimeline' in window)) return
-
-    const lis     = Array.from(cardsRef.current.querySelectorAll('li'))
-    const inners  = Array.from(cardsRef.current.querySelectorAll('.card-inner'))
-    const n       = inners.length
-
-    inners.forEach((card, i) => {
-      if (i === n - 1) return // last card never scales
-
-      // Watch the NEXT li entering — that's when this card should shrink
-      const timeline = new ViewTimeline({ subject: lis[i + 1], axis: 'block' })
-
-      card.animate(
-        {
-          transform: [`scale(1)`, `scale(${1 - 0.05 * (n - i - 1)})`],
-          filter:    ['brightness(1)', 'brightness(0.5)'],
-        },
-        {
-          timeline,
-          fill:       'both',
-          rangeStart: 'entry 10%',
-          rangeEnd:   'entry 90%',
-          easing:     'ease-out',
-        }
-      )
-    })
+    const el = document.createElement('style')
+    el.id = 'stacking-cards-css'
+    el.textContent = css
+    if (!document.getElementById('stacking-cards-css')) document.head.appendChild(el)
+    return () => document.getElementById('stacking-cards-css')?.remove()
   }, [])
 
   return (
-    /*
-      Key insight: the <ul> is NOT a scroll container.
-      Each <li> is tall enough to create scroll distance (100vh),
-      and the inner card is sticky within it.
-      The section itself has no explicit height — it's just the sum of its children.
-      `overflow: clip` (not hidden) prevents bleed without creating a new scroll context.
-    */
     <section style={{ overflow: 'clip' }}>
       <ul
-        ref={cardsRef}
+        id="cards"
         className="max-w-7xl mx-auto px-6 lg:px-10"
-        style={{ listStyle: 'none', padding: 0, margin: '0 auto' }}
+        style={{ '--numcards': numCards }}
       >
         {cards.map(({ to, label, sub, img }, i) => (
           <li
             key={to}
-            style={{
-              // Each li is one "scroll step" tall.
-              // The last li only needs to be as tall as the card itself — no extra scroll.
-              height: i < cards.length - 1 ? '100vh' : 'auto',
-              // Pad the last li bottom so next section starts clean
-              paddingBottom: i === cards.length - 1 ? '6rem' : 0,
-            }}
+            className="card"
+            style={{ '--index': i + 1 }}
           >
             <div
-              className="card-inner grid grid-cols-2 rounded-2xl overflow-hidden border border-white/6 bg-[#141414]"
-              style={{
-                height: '340px',
-                position: 'sticky',
-                top: `${CARD_TOP + i * 18}px`,
-                zIndex: i + 1,
-                transformOrigin: '50% 0%',
-                willChange: 'transform, filter',
-              }}
+              className="card__content grid grid-cols-2 rounded-2xl overflow-hidden border border-white/6 bg-[#141414]"
+              style={{ height: '340px' }}
             >
               <div className="p-10 flex flex-col justify-between">
                 <div>
                   <p className="text-[9px] tracking-[0.22em] uppercase text-white/20 mb-3">{sub}</p>
                   <h2
                     style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: 'clamp(1.8rem, 4vw, 3rem)',
-                      fontWeight: 400,
+                      fontFamily:    'var(--font-heading)',
+                      fontSize:      'clamp(1.8rem, 4vw, 3rem)',
+                      fontWeight:    400,
                       letterSpacing: '-0.02em',
                     }}
                     className="text-white/85 mb-4 leading-tight"

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"; // useRef kept for useReveal's IntersectionObserver
-import heroVideo from "../assets/hero-video2.mp4";
+import heroVideo from "../assets/hero-video.mp4";
 import rnbPhoto from "../assets/rnb.jpg";
 import rnbPhoto2 from "../assets/rhythm.jpg";
 

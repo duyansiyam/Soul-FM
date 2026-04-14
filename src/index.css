@@ -41,7 +41,6 @@ body {
   background-color: var(--color-soul-black);
   color: var(--color-soul-white);
   margin: 0;
-  overflow-x: hidden;
 }
 
 /* Grain overlay */
@@ -142,5 +141,10 @@ body #cursor.cursor-click {
 }
 
 #root {
-  animation: soulfm-fadein 0.7s ease both;
+  animation: soulfm-fadein-safe 0.7s ease both;
+}
+
+@keyframes soulfm-fadein-safe {
+  from { opacity: 0; } /* opacity only — no transform */
+  to   { opacity: 1; }
 }

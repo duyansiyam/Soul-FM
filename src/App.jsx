@@ -10,7 +10,7 @@ import ContactUs from './pages/ContactUs'
 
 function App() {
   return (
-    <>
+    <div style={{ overflowX: 'clip' }}>
       <Navbar />
 
       <Routes>
@@ -23,7 +23,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </>
+    </div>
   )
 }
 

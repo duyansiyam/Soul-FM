@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import heroVideo from '../../assets/hero-video.mp4'
+import heroVideo from '../../assets/hero-video2.mp4'
 
 export default function HeroSection() {
   const videoRef = useRef(null)

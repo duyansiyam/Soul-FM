@@ -45,7 +45,7 @@ function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500
         ${visible ? 'translate-y-0' : '-translate-y-full'}
         ${scrolled || menuOpen
-          ? 'border-b border-white/[0.05] bg-[var(--color-soul-black)]/98 backdrop-blur-2xl'
+          ? 'border-b border-white/5 bg-(--color-soul-black)/98 backdrop-blur-2xl'
           : 'border-b border-transparent bg-transparent'
         }`}
     >
@@ -73,7 +73,7 @@ function Navbar() {
                 >
                   {label}
                   {active && (
-                    <span className="absolute bottom-[3px] left-1/2 -translate-x-1/2 w-4 h-px bg-[var(--color-soul-accent)] rounded-full" />
+                    <span className="absolute bottom-0.75 left-1/2 -translate-x-1/2 w-4 h-px bg-(--color-soul-accent) rounded-full" />
                   )}
                 </Link>
               </li>
@@ -97,18 +97,18 @@ function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px]"
+            className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.25"
             aria-label="Toggle menu"
           >
-            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
+            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
             <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'opacity-0 w-0' : ''}`} />
-            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
+            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
           </button>
         </div>
       </div>
 
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
-        ${menuOpen ? 'max-h-80 border-t border-white/[0.04]' : 'max-h-0'}`}>
+        ${menuOpen ? 'max-h-80 border-t border-white/4' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">
           {navLinks.map(({ to, label }) => {
             const active = location.pathname === to
@@ -126,7 +126,7 @@ function Navbar() {
               </li>
             )
           })}
-          <li className="mt-2 pt-3 border-t border-white/[0.04]">
+          <li className="mt-2 pt-3 border-t border-white/4">
             <Link
               to="/contact-us"
               onClick={() => setMenuOpen(false)}
