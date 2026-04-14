@@ -1,23 +1,24 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap');
 
-@theme {
-  --font-heading: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'DM Sans', sans-serif;
+@layer utilities {
+  :root {
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
 
-  --color-soul-black: #0a0a0a;
-  --color-soul-dark: #111111;
-  --color-soul-card: #161616;
-  --color-soul-border: #1e1e1e;
-  --color-soul-accent: #c0392b;
-  --color-soul-accent-dim: #8b1a12;
-  --color-soul-muted: #4a4a4a;
-  --color-soul-grey: #2e2e2e;
-  --color-soul-white: #f0f0f0;
+    --color-soul-black: #0a0a0a;
+    --color-soul-dark: #111111;
+    --color-soul-card: #161616;
+    --color-soul-border: #1e1e1e;
+    --color-soul-accent: #c0392b;
+    --color-soul-accent-dim: #8b1a12;
+    --color-soul-muted: #4a4a4a;
+    --color-soul-grey: #2e2e2e;
+    --color-soul-white: #f0f0f0;
 
-  --text-display: 5rem;
-  --text-display--line-height: 1.02;
-  --text-display--letter-spacing: -0.04em;
+    --text-display: 5rem;
+    --text-display--line-height: 1.02;
+    --text-display--letter-spacing: -0.04em;
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }

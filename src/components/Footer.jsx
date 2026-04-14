@@ -4,10 +4,10 @@ import logo from '../assets/SOULFM_logo.png'
 
 function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-[#080808] text-[var(--color-soul-white)]">
+    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-[#080808] text-soul-white">
       {/* background glow */}
-      <div className="pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-[var(--color-soul-accent)]/10 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-16 right-0 h-72 w-72 rounded-full bg-[var(--color-soul-accent-dim)]/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -left-20 top-0 h-72 w-72 rounded-full bg-(--color-soul-accent)/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-16 right-0 h-72 w-72 rounded-full bg-(--color-soul-accent-dim)/10 blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 md:px-10 lg:px-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
@@ -15,7 +15,7 @@ function Footer() {
           {/* Brand */}
           <div>
             <div className="mb-6 flex items-center gap-4">
-              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+              <div className="flex h-18 w-18 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
                 <img
                   src={logo}
                   alt="SOULFM Logo"
@@ -24,7 +24,7 @@ function Footer() {
               </div>
 
               <div>
-                <h2 className="font-[var(--font-heading)] text-3xl font-medium tracking-[0.08em] text-white">
+                <h2 className="font-(--font-heading) text-3xl tracking-[0.08em] text-white">
                   SOULFM
                 </h2>
                 <p className="mt-1 text-sm tracking-[0.08em] text-white/55">
@@ -45,7 +45,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-[var(--color-soul-accent)] hover:bg-[var(--color-soul-accent)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)"
               >
                 <FaWhatsapp size={17} />
               </a>
@@ -55,7 +55,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-[var(--color-soul-accent)] hover:bg-[var(--color-soul-accent)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)"
               >
                 <FaFacebookF size={15} />
               </a>
@@ -65,7 +65,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="TikTok"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-[var(--color-soul-accent)] hover:bg-[var(--color-soul-accent)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)"
               >
                 <FaTiktok size={15} />
               </a>
@@ -75,7 +75,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-[var(--color-soul-accent)] hover:bg-[var(--color-soul-accent)]"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:-translate-y-1 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)"
               >
                 <FaInstagram size={16} />
               </a>
@@ -140,7 +140,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="my-8 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="my-8 h-px w-full bg-linear-to-r from-transparent via-white/15 to-transparent" />
 
         <div className="flex flex-col gap-3 text-sm text-white/45 md:flex-row md:items-center md:justify-between">
           <p>© 2026 SOULFM. All rights reserved.</p>
