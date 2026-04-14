@@ -68,45 +68,45 @@ function NowPlaying() {
   return (
     <section
       style={{ fontFamily: "var(--font-body)" }}
-      className="relative min-h-screen overflow-hidden bg-[var(--color-soul-black)] text-[var(--color-soul-white)]"
+      className="relative min-h-screen overflow-hidden bg-(--color-soul-black) text-(--color-soul-white)"
     >
       {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,57,43,0.22),transparent_22%),radial-gradient(circle_at_bottom_left,rgba(139,26,18,0.18),transparent_30%),linear-gradient(135deg,#0a0a0a_0%,#120909_28%,#1b0c0b_58%,#0a0a0a_100%)]" />
 
       {/* Grid texture */}
-      <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:34px_34px]" />
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[34px_34px]" />
 
       {/* Rusty glow blobs */}
-      <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-[var(--color-soul-accent)]/15 blur-3xl" />
-      <div className="absolute bottom-10 right-0 h-80 w-80 rounded-full bg-[var(--color-soul-accent-dim)]/15 blur-3xl" />
-      <div className="absolute left-1/2 top-1/3 h-52 w-52 -translate-x-1/2 rounded-full bg-[var(--color-soul-accent)]/8 blur-3xl" />
+      <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-(--color-soul-accent)/15 blur-3xl" />
+      <div className="absolute bottom-10 right-0 h-80 w-80 rounded-full bg-(--color-soul-accent-dim)/15 blur-3xl" />
+      <div className="absolute left-1/2 top-1/3 h-52 w-52 -translate-x-1/2 rounded-full bg-(--color-soul-accent)/8 blur-3xl" />
 
       {/* Decorative lines */}
       <div className="absolute left-10 top-24 h-24 w-24 rounded-full border border-white/10" />
-      <div className="absolute bottom-24 left-20 h-2 w-20 rounded-full bg-gradient-to-r from-[var(--color-soul-accent-dim)] to-transparent" />
+      <div className="absolute bottom-24 left-20 h-2 w-20 rounded-full bg-linear-to-r from-(--color-soul-accent-dim) to-transparent" />
 
       {/* Main wrapper with navbar spacing */}
       <div className="relative z-10 mx-auto max-w-6xl px-6 pb-16 pt-28">
-        <div className="mx-auto w-full max-w-5xl rounded-[28px] border border-[var(--color-soul-border)] bg-white/[0.03] px-6 py-10 shadow-[0_0_60px_rgba(192,57,43,0.06)] backdrop-blur-md md:px-10">
+        <div className="mx-auto w-full max-w-5xl rounded-[28px] border border-(--color-soul-border) bg-white/3 px-6 py-10 shadow-[0_0_60px_rgba(192,57,43,0.06)] backdrop-blur-md md:px-10">
           {/* Header */}
           <div className="text-center">
             <div className="mb-4 flex items-center justify-center gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--color-soul-border)] bg-[var(--color-soul-card)] shadow-[0_0_20px_rgba(192,57,43,0.06)]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-(--color-soul-border) bg-(--color-soul-card) shadow-[0_0_20px_rgba(192,57,43,0.06)]">
                 <Headphones
-                  className="h-7 w-7 text-[var(--color-soul-white)] md:h-8 md:w-8"
+                  className="h-7 w-7 text-(--color-soul-white) md:h-8 md:w-8"
                   strokeWidth={2.1}
                 />
               </div>
 
               <h1
                 style={{ fontFamily: "var(--font-heading)" }}
-                className="text-[clamp(2rem,4vw,3.5rem)] font-normal leading-[1.02] tracking-[-0.04em] text-[var(--color-soul-white)]"
+                className="text-[clamp(2rem,4vw,3.5rem)] font-normal leading-[1.02] tracking-[-0.04em] text-(--color-soul-white)"
               >
                 Now Playing
               </h1>
             </div>
 
-            <p className="mx-auto max-w-2xl text-[clamp(0.9rem,1.3vw,1.05rem)] font-light text-[var(--color-soul-muted)]">
+            <p className="mx-auto max-w-2xl text-[clamp(0.9rem,1.3vw,1.05rem)] font-light text-(--color-soul-muted)">
               Feel the rhythm. Stay connected with SOULFM.
             </p>
           </div>
@@ -115,18 +115,18 @@ function NowPlaying() {
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-[260px_1fr]">
             {/* Vinyl */}
             <div className="flex justify-center">
-              <div className="relative h-[220px] w-[220px] md:h-[260px] md:w-[260px]">
-                <div className="absolute inset-0 rounded-full bg-[var(--color-soul-accent)]/15 blur-3xl" />
+              <div className="relative h-55 w-55 md:h-65 md:w-65">
+                <div className="absolute inset-0 rounded-full bg-(--color-soul-accent)/15 blur-3xl" />
 
                 <div className="absolute inset-0 animate-[spin_8s_linear_infinite] rounded-full border border-white/10 bg-[radial-gradient(circle,#1d1d1d_0%,#0b0b0b_35%,#050505_70%,#000000_100%)] shadow-[0_0_45px_rgba(192,57,43,0.12)]">
-                  <div className="absolute inset-[14px] rounded-full border border-white/5" />
-                  <div className="absolute inset-[28px] rounded-full border border-white/5" />
-                  <div className="absolute inset-[42px] rounded-full border border-white/5" />
-                  <div className="absolute inset-[56px] rounded-full border border-white/5" />
-                  <div className="absolute inset-[70px] rounded-full border border-white/5" />
+                  <div className="absolute inset-3.5 rounded-full border border-white/5" />
+                  <div className="absolute inset-7 rounded-full border border-white/5" />
+                  <div className="absolute inset-10.5 rounded-full border border-white/5" />
+                  <div className="absolute inset-14 rounded-full border border-white/5" />
+                  <div className="absolute inset-17.5 rounded-full border border-white/5" />
 
-                  <div className="absolute left-1/2 top-1/2 flex h-[80px] w-[80px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-soul-border)] bg-gradient-to-br from-[var(--color-soul-accent)] via-[var(--color-soul-accent-dim)] to-[#2a0c08] shadow-inner">
-                    <span className="text-[10px] font-semibold tracking-[0.24em] text-[var(--color-soul-white)]/90">
+                  <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-(--color-soul-border) bg-linear-to-br from-(--color-soul-accent) via-(--color-soul-accent-dim) to-[#2a0c08] shadow-inner">
+                    <span className="text-[10px] font-semibold tracking-[0.24em] text-(--color-soul-white)/90">
                       SOULFM
                     </span>
                   </div>
@@ -139,30 +139,30 @@ function NowPlaying() {
             {/* Text + Player */}
             <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
               {loading ? (
-                <p className="text-lg font-light text-[var(--color-soul-muted)] md:text-xl">
+                <p className="text-lg font-light text-(--color-soul-muted) md:text-xl">
                   Loading current track...
                 </p>
               ) : (
                 <>
-                  <div className="mb-5 flex items-center gap-3 rounded-full border border-[var(--color-soul-border)] bg-[var(--color-soul-card)] px-4 py-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-soul-accent)] animate-pulse" />
-                    <span className="text-[10px] font-light uppercase tracking-[0.35em] text-[var(--color-soul-white)]/70">
+                  <div className="mb-5 flex items-center gap-3 rounded-full border border-(--color-soul-border) bg-(--color-soul-card) px-4 py-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-(--color-soul-accent) animate-pulse" />
+                    <span className="text-[10px] font-light uppercase tracking-[0.35em] text-(--color-soul-white)/70">
                       Live Now
                     </span>
                   </div>
 
                   <h2
                     style={{ fontFamily: "var(--font-heading)" }}
-                    className="max-w-3xl text-[clamp(1.6rem,3vw,2.8rem)] font-normal leading-[1.05] tracking-[-0.03em] text-[var(--color-soul-white)]"
+                    className="max-w-3xl text-[clamp(1.6rem,3vw,2.8rem)] font-normal leading-[1.05] tracking-[-0.03em] text-(--color-soul-white)"
                   >
                     {track.title}
                   </h2>
 
-                  <p className="mt-3 text-[clamp(0.95rem,1.6vw,1.35rem)] font-light text-[var(--color-soul-muted)]">
+                  <p className="mt-3 text-[clamp(0.95rem,1.6vw,1.35rem)] font-light text-(--color-soul-muted)">
                     {track.artist}
                   </p>
 
-                  <div className="mt-8 w-full max-w-2xl rounded-[20px] border border-[var(--color-soul-border)] bg-[var(--color-soul-card)]/60 p-4 backdrop-blur-sm">
+                  <div className="mt-8 w-full max-w-2xl rounded-[20px] border border-(--color-soul-border) bg-(--color-soul-card)/60 p-4 backdrop-blur-sm">
                     <audio controls autoPlay className="w-full">
                       <source src={STREAM_URL} type="audio/mpeg" />
                       Your browser does not support the audio element.
@@ -173,7 +173,7 @@ function NowPlaying() {
                     href={STREAM_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-6 inline-flex items-center rounded-full border border-[var(--color-soul-accent-dim)] bg-[var(--color-soul-accent)]/10 px-6 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-[var(--color-soul-white)] transition duration-300 hover:border-[var(--color-soul-accent)] hover:bg-[var(--color-soul-accent)]/20"
+                    className="mt-6 inline-flex items-center rounded-full border border-(--color-soul-accent-dim) bg-(--color-soul-accent)/10 px-6 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-(--color-soul-white) transition duration-300 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)/20"
                   >
                     Download App Now!
                   </a>
