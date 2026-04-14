@@ -133,10 +133,10 @@ function ScheduleCard({ time, title, host, description, delay = 0 }) {
         transform: visible ? 'translateY(0px) scale(1)' : 'translateY(26px) scale(0.98)',
         transition: `opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
       }}
-      className="group relative min-h-[220px] overflow-hidden rounded-[14px] border border-white/[0.06] bg-white/[0.02] p-5 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-[#c0392b]/30 hover:bg-white/[0.04]"
+      className="group relative min-h-55 overflow-hidden rounded-[14px] border border-white/6 bg-white/2 p-5 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-[#c0392b]/30 hover:bg-white/4"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent opacity-60" />
-      <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#c0392b]/[0.06] blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-70" />
+      <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent opacity-60" />
+      <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#c0392b]/6 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-70" />
 
       <div className="relative z-10">
         <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-white/80">
@@ -170,7 +170,7 @@ function FeaturePill({ label, delay, visible }) {
         transform: visible ? 'translateY(0)' : 'translateY(12px)',
         transition: `all 0.45s ease ${delay}ms`,
       }}
-      className="rounded-[14px] border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-[12px] font-light leading-[1.55] text-white/40 transition-all duration-300 hover:border-[#c0392b]/30 hover:bg-[#c0392b]/[0.05] hover:text-white/70"
+      className="rounded-[14px] border border-white/6 bg-white/2 px-4 py-3 text-[12px] font-light leading-[1.55] text-white/40 transition-all duration-300 hover:border-[#c0392b]/30 hover:bg-[#c0392b]/5 hover:text-white/70"
     >
       <span className="mr-2 inline-block h-1 w-1 rounded-full bg-[#c0392b] opacity-70 align-middle" />
       {label}
@@ -199,7 +199,7 @@ export default function ShowSchedule() {
   return (
     <main
       style={{ fontFamily: 'var(--font-body)' }}
-      className="overflow-x-hidden bg-[var(--color-soul-black)] text-[var(--color-soul-white)]"
+      className="overflow-x-hidden bg-(--color-soul-black) text-(--color-soul-white)"
     >
       <style>{`
         @keyframes soulFloatOne {
@@ -230,28 +230,28 @@ export default function ShowSchedule() {
         }
       `}</style>
 
-      <section className="relative overflow-hidden border-b border-white/[0.04] bg-gradient-to-br from-[#3a120d] via-[#1b0d0b] to-black">
+      <section className="relative overflow-hidden border-b border-white/4 bg-linear-to-br from-[#3a120d] via-[#1b0d0b] to-black">
         {/* animated background designs */}
         <div className="pointer-events-none absolute inset-0">
           <div
-            className="absolute -left-24 top-[-80px] h-[320px] w-[320px] rounded-full bg-[#a33222]/20 blur-3xl"
+            className="absolute -left-24 -top-20 h-80 w-[320px] rounded-full bg-[#a33222]/20 blur-3xl"
             style={{ animation: 'soulFloatOne 10s ease-in-out infinite' }}
           />
           <div
-            className="absolute right-[-60px] top-[20%] h-[260px] w-[260px] rounded-full bg-[#7a2319]/20 blur-3xl"
+            className="absolute -right-15 top-[20%] h-65 w-65 rounded-full bg-[#7a2319]/20 blur-3xl"
             style={{ animation: 'soulFloatTwo 12s ease-in-out infinite' }}
           />
           <div
-            className="absolute bottom-[-80px] left-[28%] h-[240px] w-[240px] rounded-full bg-[#c0392b]/10 blur-3xl"
+            className="absolute -bottom-20 left-[28%] h-60 w-60 rounded-full bg-[#c0392b]/10 blur-3xl"
             style={{ animation: 'soulPulse 8s ease-in-out infinite' }}
           />
 
           <div
-            className="absolute inset-x-[-10%] top-[18%] h-px bg-gradient-to-r from-transparent via-[#c56a5a]/40 to-transparent"
+            className="absolute inset-x-[-10%] top-[18%] h-px bg-linear-to-r from-transparent via-[#c56a5a]/40 to-transparent"
             style={{ animation: 'soulLineMove 8s ease-in-out infinite' }}
           />
           <div
-            className="absolute inset-x-[-5%] top-[58%] h-px bg-gradient-to-r from-transparent via-[#8b3022]/30 to-transparent"
+            className="absolute inset-x-[-5%] top-[58%] h-px bg-linear-to-r from-transparent via-[#8b3022]/30 to-transparent"
             style={{ animation: 'soulLineMove 10s ease-in-out infinite reverse' }}
           />
 
@@ -316,7 +316,7 @@ export default function ShowSchedule() {
 
                 <a
                   href="#weekly-schedule"
-                  className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-7 py-3.5 text-[11px] font-light uppercase tracking-[0.14em] text-white/50 backdrop-blur-sm transition-all duration-300 hover:border-[#c0392b]/40 hover:text-white/80"
+                  className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/3 px-7 py-3.5 text-[11px] font-light uppercase tracking-[0.14em] text-white/50 backdrop-blur-sm transition-all duration-300 hover:border-[#c0392b]/40 hover:text-white/80"
                 >
                   View Schedule
                 </a>
@@ -324,11 +324,11 @@ export default function ShowSchedule() {
             </div>
 
             <div style={reveal(heroReady, 220, 30)} className="hidden lg:block">
-              <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[linear-gradient(135deg,rgba(43,18,13,0.9),rgba(16,16,16,0.92),rgba(10,10,10,0.95))] p-8 backdrop-blur-md">
+              <div className="relative overflow-hidden rounded-[30px] border border-white/8 bg-[linear-gradient(135deg,rgba(43,18,13,0.9),rgba(16,16,16,0.92),rgba(10,10,10,0.95))] p-8 backdrop-blur-md">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,57,43,0.18),transparent_35%)]" />
-                <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#c0392b]/70 to-transparent" />
+                <div className="absolute inset-x-10 top-0 h-px bg-linear-to-r from-transparent via-[#c0392b]/70 to-transparent" />
 
-                <div className="relative z-10 flex h-[320px] flex-col justify-between">
+                <div className="relative z-10 flex h-80 flex-col justify-between">
                   <div>
                     <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-white/20">
                       Today&apos;s flow
@@ -353,7 +353,7 @@ export default function ShowSchedule() {
                       <div
                         key={item}
                         style={reveal(heroReady, 260 + index * 60, 14)}
-                        className="flex items-center justify-between border-b border-white/[0.06] pb-3 text-sm text-white/42"
+                        className="flex items-center justify-between border-b border-white/6 pb-3 text-sm text-white/42"
                       >
                         <span>{item}</span>
                         <span className="text-[#c56a5a]">•</span>
@@ -413,15 +413,15 @@ export default function ShowSchedule() {
 
       <section
         ref={featureRef}
-        className="relative overflow-hidden border-y border-white/[0.04] bg-[#0c0c0c]"
+        className="relative overflow-hidden border-y border-white/4 bg-[#0c0c0c]"
       >
         <div className="pointer-events-none absolute inset-0">
           <div
-            className="absolute left-[-40px] top-[20%] h-44 w-44 rounded-full bg-[#7d2518]/15 blur-3xl"
+            className="absolute -left-10 top-[20%] h-44 w-44 rounded-full bg-[#7d2518]/15 blur-3xl"
             style={{ animation: 'soulFloatOne 14s ease-in-out infinite' }}
           />
           <div
-            className="absolute right-[-30px] bottom-[10%] h-36 w-36 rounded-full bg-[#b13b29]/10 blur-3xl"
+            className="absolute -right-7.5 bottom-[10%] h-36 w-36 rounded-full bg-[#b13b29]/10 blur-3xl"
             style={{ animation: 'soulFloatTwo 16s ease-in-out infinite' }}
           />
         </div>
@@ -434,7 +434,7 @@ export default function ShowSchedule() {
               transition:
                 'opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
-            className="group overflow-hidden rounded-[24px] border border-white/[0.06] bg-[#0f0f0f] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+            className="group overflow-hidden rounded-3xl border border-white/6 bg-[#0f0f0f] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
           >
             <img
               src={vinylImgUrl}
@@ -517,7 +517,7 @@ export default function ShowSchedule() {
 
       <section
         ref={ctaRef}
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#0c0c0c]"
+        className="relative overflow-hidden border-t border-white/4 bg-[#0c0c0c]"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,57,43,0.08),transparent_45%)]" />
         <div className="relative z-10 mx-auto max-w-4xl px-6 py-20 text-center lg:px-10 lg:py-28">
