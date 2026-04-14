@@ -280,7 +280,7 @@ export default function ShowSchedule() {
                 <br />
                 Favorite Shows
                 <br />
-                <em className="not-italic text-[#d1624f]">Every Day</em>
+                <em className="not-italic text-[#c0392b]">Every Day</em>
               </h1>
 
               <p
@@ -391,7 +391,7 @@ export default function ShowSchedule() {
             <SectionHeading>
               Weekday
               <br />
-              Programming
+              Soulful Lineup
             </SectionHeading>
           </div>
 
@@ -531,7 +531,7 @@ export default function ShowSchedule() {
           >
             Lock in your favorite shows
             <br />
-            and never miss a <em className="not-italic text-[#c56a5a]">beat</em>
+            and never miss a <em className="not-italic text-[#c0392b]">beat</em>
           </h2>
 
           <p
