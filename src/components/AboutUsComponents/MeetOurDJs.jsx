@@ -327,9 +327,10 @@ const styles = {
   },
   bio: {
     fontFamily: "'Cormorant Garamond', serif",
-    fontSize: "1.05rem",
-    lineHeight: 1.85,
+    fontSize: "1rem",
+    lineHeight: 1.8,
     color: "#a89880",
+    textAlign: "justify",
     fontWeight: 300,
     marginBottom: "2rem",
   },
