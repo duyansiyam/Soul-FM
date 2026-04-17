@@ -74,7 +74,7 @@ function Footer() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          color: rgba(255,255,255,0.45);
+          color: rgb(255, 255, 255);
           font-size: 13.5px;
           letter-spacing: 0.04em;
           transition: color 0.25s ease;
@@ -98,7 +98,7 @@ function Footer() {
           display: flex; align-items: center; justify-content: center;
           border: 1px solid rgba(255,255,255,0.08);
           background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.5);
+          color: rgb(255, 255, 255);
           transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
           text-decoration: none;
           position: relative;
@@ -188,7 +188,7 @@ function Footer() {
 
             <p
               className="max-w-xs text-[13.5px] leading-[1.9] tracking-wide"
-              style={{ color: 'rgba(255,255,255,0.38)' }}
+              style={{ color: 'rgb(255, 255, 255)' }}
             >
               Soul FM connects listeners to timeless music, meaningful stories,
               and a vibrant community. Tune in for soulful sound, smooth energy,
@@ -226,7 +226,7 @@ function Footer() {
                 <span className="gold-dot" />
                 <span
                   className="text-[10px] font-medium uppercase tracking-[0.16em]"
-                  style={{ color: '#c0392b' }}
+                  style={{ color: '#e2301c' }}
                 >
                   On Air
                 </span>
@@ -234,22 +234,26 @@ function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="footer-col">
-            <div className="section-label">Quick Links</div>
-            <nav className="flex flex-col gap-3.5">
-              {[
-                { label: 'About', to: '/about' },
-                { label: "Meet The DJ's", to: '/about#djs' },
-                { label: 'Now Playing', to: '/now-playing' },
-                { label: 'Show Schedule', to: '/show-schedule' },
-              ].map(({ label, to }) => (
-                <Link key={to} to={to} className="nav-link">
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+                  {/* Quick Links */}
+<div className="footer-col">
+  <div className="section-label">Quick Links</div>
+
+  <nav className="flex flex-col gap-3.5">
+    <Link to="/" className="nav-link">Home</Link>
+
+    <Link to="/about" className="nav-link">About</Link>
+
+    <a href="/about#djs" className="nav-link">
+      Meet The DJ's
+    </a>
+
+    <Link to="/now-playing" className="nav-link">Now Playing</Link>
+    <Link to="/show-schedule" className="nav-link">Show Schedule</Link>
+
+    <Link to="/contact-us" className="nav-link">Contact Us</Link>
+    <Link to="/privacy-policy" className="nav-link">Privacy Policy</Link>
+  </nav>
+</div>
 
           {/* Contact */}
           <div className="footer-col">
@@ -263,19 +267,19 @@ function Footer() {
                 <a
                   href="tel:+19097479521"
                   className="text-[14px] font-light tracking-wide transition-colors duration-200"
-                  style={{ color: 'rgba(255,255,255,0.7)' }}
+                  style={{ color: 'rgb(255, 255, 255)' }}
                   onMouseEnter={e => (e.target.style.color = '#e8c060')}
-                  onMouseLeave={e => (e.target.style.color = 'rgba(255,255,255,0.7)')}
+                  onMouseLeave={e => (e.target.style.color = 'rgb(255, 255, 255)')}
                 >
                   (909) 747-9521
                 </a>
               </div>
 
               <div className="contact-row">
-                <p className="mb-1.5 text-[9.5px] font-medium uppercase tracking-[0.18em]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                <p className="mb-1.5 text-[9.5px] font-medium uppercase tracking-[0.18em]" style={{ color: 'rgb(255, 255, 255)' }}>
                   Our Location
                 </p>
-                <p className="text-[14px] font-light leading-6 tracking-wide" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <p className="text-[14px] font-light leading-6 tracking-wide" style={{ color: 'rgb(255, 255, 255)' }}>
                   San Bernardino, CA<br />92411
                 </p>
               </div>
@@ -284,7 +288,7 @@ function Footer() {
                 <p className="mb-1.5 text-[9.5px] font-medium uppercase tracking-[0.18em]" style={{ color: 'rgba(255,255,255,0.25)' }}>
                   Hours
                 </p>
-                <p className="text-[14px] font-light leading-6 tracking-wide" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <p className="text-[14px] font-light leading-6 tracking-wide" style={{ color: 'rgb(255, 255, 255)' }}>
                   Mon – Sun<br />7:00 am – 10:00 pm
                 </p>
               </div>
@@ -297,13 +301,13 @@ function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col gap-3 text-[11.5px] tracking-widest md:flex-row md:items-center md:justify-between">
-          <p style={{ color: 'rgba(255,255,255,0.22)' }}>
+          <p style={{ color: 'rgb(255, 255, 255)' }}>
             Copyright © 2026 Soul FM&nbsp;&nbsp;|&nbsp;&nbsp;All Rights Reserved
           </p>
           <p
             className="italic"
             style={{
-              color: 'rgba(255,255,255,0.7)',
+              color: 'rgb(255, 255, 255)',
               letterSpacing: '0.1em',
             }}
           >
