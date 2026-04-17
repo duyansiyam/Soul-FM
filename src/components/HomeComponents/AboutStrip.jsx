@@ -6,14 +6,14 @@ export default function AboutStrip() {
   const [active, setActive] = useState('Jazz')
 
   return (
-    <section className="relative overflow-hidden bg-[#0c0a14] py-16 px-6 lg:px-10">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#0c0a14] via-red-900/10 to-[#0c0a14] py-16 px-6 lg:px-10">
 
       {/* top border line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-purple-500/35 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-red-500/35 to-transparent" />
 
       {/* ambient glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-1/4 bottom-0 h-64 w-96 rounded-full bg-purple-800/10 blur-3xl" />
+        <div className="absolute right-1/4 bottom-0 h-64 w-96 rounded-full bg-red-800/10 blur-3xl" />
         <div className="absolute left-1/4 top-0 h-48 w-64 rounded-full bg-orange-700/6 blur-3xl" />
       </div>
 
@@ -35,7 +35,7 @@ export default function AboutStrip() {
         {/* left col */}
         <div className="animate-[fadeUp_0.7s_cubic-bezier(0.16,1,0.3,1)_0.2s_both]">
           <p className="flex items-center gap-3 text-[9px] tracking-[0.26em] uppercase text-white/20 mb-5">
-            <span className="inline-block w-4 h-px bg-purple-400/50" />
+            <span className="inline-block w-4 h-px bg-red-400/50" />
             Immerse yourself
           </p>
 
@@ -44,13 +44,13 @@ export default function AboutStrip() {
             style={{ fontSize: 'clamp(2rem, 4.5vw, 3.4rem)' }}
           >
             Classic Sounds<br />
-            <em className="bg-linear-to-r from-purple-400 via-orange-400 to-amber-300 bg-clip-text text-transparent bg-size-[200%_auto] animate-[shimmer_4s_linear_1s_infinite] not-italic">
+            <em className="bg-linear-to-r from-red-400 via-orange-400 to-amber-300 bg-clip-text text-transparent bg-size-[200%_auto] animate-[shimmer_4s_linear_1s_infinite] not-italic">
               for the soul
             </em>
           </h2>
 
-          <div className="mt-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-500/20 text-[10px] tracking-widest text-white/25 animate-[fadeUp_0.6s_ease_0.8s_both]">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-400/70" />
+          <div className="mt-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-500/20 text-[10px] tracking-widest text-white/25 animate-[fadeUp_0.6s_ease_0.8s_both]">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-400/70" />
             Est. 2024 · San Bernardino
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AboutStrip() {
                   hover:-translate-y-0.5
                   ${active === g
                     ? 'border-orange-500/35 text-orange-400/80 bg-orange-500/4'
-                    : 'border-white/8 text-white/25 hover:border-purple-500/40 hover:text-purple-400/85'
+                    : 'border-white/8 text-white/25 hover:border-red-500/40 hover:text-red-400/85'
                   }
                 `}
               >

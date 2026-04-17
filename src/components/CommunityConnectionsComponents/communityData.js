@@ -1,21 +1,21 @@
 export const photos = [
   {
     id: 1,
-    src: "/src/assets/comm-pic01.webp",
+    src: "/src/assets/comm-pic01.jpg",
     tag: "Live Session",
     caption: "Something in the silence between notes",
     layout: "normal",
   },
   {
     id: 2,
-    src: "/src/assets/comm-pic02.webp",
+    src: "/src/assets/comm-pic02.jpg",
     tag: "Community",
     caption: "Where strangers become family",
     layout: "normal",
   },
   {
     id: 3,
-    src: "/src/assets/comm-pic03.webp",
+    src: "/src/assets/comm-pic03.jpg",
     tag: "After Hours",
     caption: "The night never really ends here",
     layout: "tall",
@@ -43,14 +43,14 @@ export const photos = [
   },
   {
     id: 7,
-    src: "/src/assets/comm-pic07.webp",
+    src: "/src/assets/comm-pic07.jpg",
     tag: "Event",
     caption: "The room remembers every frequency",
     layout: "tall",
   },
   {
     id: 8,
-    src: "/src/assets/comm-pic08.webp",
+    src: "/src/assets/comm-pic08.jpg",
     tag: "Studio",
     caption: "Born in the booth",
     layout: "tall",
