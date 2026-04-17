@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import logo from '../assets/LOGO-HDNOBG.png'
 
@@ -12,6 +12,7 @@ const navLinks = [
 
 function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(true)
@@ -39,6 +40,34 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [location.pathname])
+
+  // Close menu on Escape key
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  const handleNavClick = (to) => {
+    if (location.pathname === to) {
+      // Already on the page — just scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    // Route change is handled by the useEffect above
+    setMenuOpen(false)
+  }
+
   return (
     <nav
       style={{ fontFamily: 'var(--font-body)' }}
@@ -51,7 +80,12 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
 
-        <Link to="/" className="group">
+        {/* Logo — always scrolls to top */}
+        <Link
+          to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="group"
+        >
           <img
             src={logo}
             alt="SoulFM"
@@ -59,6 +93,7 @@ function Navbar() {
           />
         </Link>
 
+        {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-1 list-none">
           {navLinks.map(({ to, label }) => {
             const active = location.pathname === to
@@ -66,6 +101,7 @@ function Navbar() {
               <li key={to}>
                 <Link
                   to={to}
+                  onClick={() => handleNavClick(to)}
                   className={`relative block px-4 py-2 text-[12px] tracking-[0.08em] uppercase rounded-md
                     transition-all duration-200 ease-out
                     hover:scale-105 hover:brightness-125
@@ -84,6 +120,7 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             to="/contact-us"
+            onClick={() => handleNavClick('/contact-us')}
             className="hidden sm:block relative text-[11px] tracking-[0.12em] uppercase
               px-4 py-2 rounded-md font-semibold
               bg-white text-black
@@ -92,13 +129,14 @@ function Navbar() {
               transition-all duration-200 ease-out"
           >
             Get In Touch
-           <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />
+            <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />
           </Link>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.25"
-            aria-label="Toggle menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
           >
             <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
             <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'opacity-0 w-0' : ''}`} />
@@ -107,6 +145,7 @@ function Navbar() {
         </div>
       </div>
 
+      {/* Mobile menu */}
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
         ${menuOpen ? 'max-h-80 border-t border-white/4' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">
@@ -116,10 +155,10 @@ function Navbar() {
               <li key={to}>
                 <Link
                   to={to}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => handleNavClick(to)}
                   className={`block px-3 py-2.5 text-[12px] tracking-[0.08em] uppercase rounded-md
                     transition-all duration-150
-                    ${active ? 'text-white' : 'text-white/55 hover:text-white'}`}
+                    ${active ? 'text-white bg-white/5' : 'text-white/55 hover:text-white'}`}
                 >
                   {label}
                 </Link>
@@ -129,7 +168,7 @@ function Navbar() {
           <li className="mt-2 pt-3 border-t border-white/4">
             <Link
               to="/contact-us"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => handleNavClick('/contact-us')}
               className="inline-block relative px-4 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold
                 bg-white text-black rounded-md border border-white
                 hover:bg-black hover:text-white
