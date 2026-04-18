@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+
 export default function PhotoCell({ photo, index, onClick }) {
   const [hovered, setHovered] = useState(false);
   const isPortrait = photo.layout === "tall";
+
 
   return (
     <>
@@ -35,6 +37,7 @@ export default function PhotoCell({ photo, index, onClick }) {
           }
         }
       `}</style>
+
 
       <article
         className={isPortrait ? "photo-row-portrait" : "photo-row-landscape"}
@@ -70,6 +73,7 @@ export default function PhotoCell({ photo, index, onClick }) {
           />
         </div>
 
+
         {/* ── Portrait: side caption panel ── */}
         {isPortrait && (
           <div
@@ -96,6 +100,7 @@ export default function PhotoCell({ photo, index, onClick }) {
             </span>
           </div>
         )}
+
 
         {/* ── Landscape/wide: bottom meta strip ── */}
         {!isPortrait && (

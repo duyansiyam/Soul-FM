@@ -15,6 +15,7 @@ export default function GalleryHeader() {
         Soul FM · Community
       </p>
 
+
       <h1
         style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -37,6 +38,7 @@ export default function GalleryHeader() {
         </em>
       </h1>
 
+
       <p
         style={{
           fontSize: "13px",
@@ -54,3 +56,7 @@ export default function GalleryHeader() {
     </header>
   );
 }
+
+
+
+

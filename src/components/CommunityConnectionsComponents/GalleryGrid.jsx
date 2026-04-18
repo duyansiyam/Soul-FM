@@ -1,5 +1,6 @@
 import PhotoCell from "./PhotoCell";
 
+
 export default function GalleryGrid({ photos, onPhotoClick }) {
   return (
     <div style={{ width: "100%" }}>

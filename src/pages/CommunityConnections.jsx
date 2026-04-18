@@ -129,7 +129,7 @@ export default function CommunityConnections() {
         .image-title {
           margin: 0;
           font-family: 'Cormorant Garamond', serif;
-          font-size: 1.6rem;
+          font-size: rem;
           font-weight: 600;
           line-height: 1;
           color: #ffffff;
