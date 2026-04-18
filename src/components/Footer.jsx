@@ -200,15 +200,15 @@ function Footer() {
     <FaFacebookF size={13} />
   </a>
 
-  <a href="https://instagram.com/listensoulfm" target="_blank" rel="noreferrer" className="social-btn">
+  <a href="https://www.instagram.com/listensoulfm/" target="_blank" rel="noreferrer" className="social-btn">
     <FaInstagram size={14} />
   </a>
 
-  <a href="https://tiktok.com/@yourusername" target="_blank" rel="noreferrer" className="social-btn">
+  <a href="https://www.tiktok.com/@justdoinit_entertainment" target="_blank" rel="noreferrer" className="social-btn">
     <FaTiktok size={14} />
   </a>
 
-  <a href="https://wa.me/19097479521" target="_blank" rel="noreferrer" className="social-btn">
+  <a href="https://www.whatsapp.com/channel/0029Vb6a9gy7IUYbjd0Xmo3e" target="_blank" rel="noreferrer" className="social-btn">
     <FaWhatsapp size={14} />
   </a>
 
