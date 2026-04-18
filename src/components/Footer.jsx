@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { FaFacebookF, FaInstagram } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp } from 'react-icons/fa'
 import logo from '../assets/LOGO-HDNOBG.png'
 
 function Footer() {
@@ -195,25 +195,22 @@ function Footer() {
               and a station that brings people together.
             </p>
 
-            <div className="mt-8 flex items-center gap-3">
-              <a
-                href="https://www.facebook.com/people/Just-Doin-It-Entertainment/61560795483236"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Facebook"
-                className="social-btn"
-              >
-                <FaFacebookF size={13} />
-              </a>
-              <a
-                href="https://instagram.com/listensoulfm"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="social-btn"
-              >
-                <FaInstagram size={14} />
-              </a>
+              <div className="mt-8 flex items-center gap-3">
+  <a href="https://www.facebook.com/people/Just-Doin-It-Entertainment/61560795483236" target="_blank" rel="noreferrer" className="social-btn">
+    <FaFacebookF size={13} />
+  </a>
+
+  <a href="https://instagram.com/listensoulfm" target="_blank" rel="noreferrer" className="social-btn">
+    <FaInstagram size={14} />
+  </a>
+
+  <a href="https://tiktok.com/@yourusername" target="_blank" rel="noreferrer" className="social-btn">
+    <FaTiktok size={14} />
+  </a>
+
+  <a href="https://wa.me/19097479521" target="_blank" rel="noreferrer" className="social-btn">
+    <FaWhatsapp size={14} />
+  </a>
 
               {/* Live indicator */}
               <div

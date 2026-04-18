@@ -9,6 +9,8 @@ import NowPlaying from './pages/NowPlaying'
 import ShowSchedule from './pages/ShowSchedule'
 import CommunityConnections from './pages/CommunityConnections'
 import ContactUs from './pages/ContactUs'
+import CookieBanner from './components/CookieBanner'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -29,9 +31,11 @@ function App() {
         <Route path="/show-schedule" element={<ShowSchedule />} />
         <Route path="/community-connections" element={<CommunityConnections />} />
         <Route path="/contact-us" element={<ContactUs />} />
+         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
 
       <Footer />
+      <CookieBanner />
     </div>
   )
 }

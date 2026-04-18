@@ -16,14 +16,14 @@ export default function GalleryFooter({ totalPhotos }) {
           color: "#4a4a4a",
         }}
       >
-        Soul FM · Est. 2020 · Broadcasting from the heart
+        Soul FM · Broadcasting from the heart
       </span>
       <span
         style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: "2.8rem",
           fontWeight: 300,
-          color: "rgba(240,240,240,0.08)",
+          color: "rgba(240,240,240,0)",
           letterSpacing: "-0.04em",
           lineHeight: 1,
         }}

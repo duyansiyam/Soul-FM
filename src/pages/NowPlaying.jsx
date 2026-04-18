@@ -169,14 +169,14 @@ function NowPlaying() {
                     </audio>
                   </div>
 
-                  <a
-                    href={STREAM_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-6 inline-flex items-center rounded-full border border-(--color-soul-accent-dim) bg-(--color-soul-accent)/10 px-6 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-(--color-soul-white) transition duration-300 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)/20"
-                  >
-                    Download App Now!
-                  </a>
+                 <a
+  href="https://apps.apple.com/us/app/soul-fm/id6737055669"
+  target="_blank"
+  rel="noreferrer"
+  className="mt-6 inline-flex items-center justify-center rounded-full border border-(--color-soul-accent-dim) bg-(--color-soul-accent)/10 px-6 py-3 text-[11px] font-light uppercase tracking-[0.2em] text-(--color-soul-white) transition duration-300 hover:border-(--color-soul-accent) hover:bg-(--color-soul-accent)/20"
+>
+  Download App Now
+</a>
                 </>
               )}
             </div>
