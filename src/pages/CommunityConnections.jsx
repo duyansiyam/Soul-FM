@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import GalleryHeader from "../components/CommunityConnectionsComponents/GalleryHeader";
 import GalleryFooter from "../components/CommunityConnectionsComponents/GalleryFooter";
 import { photos } from "../components/CommunityConnectionsComponents/communityData";
