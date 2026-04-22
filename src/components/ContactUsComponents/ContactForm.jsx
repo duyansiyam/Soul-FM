@@ -13,15 +13,19 @@ function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const recipientEmail = "justdoinitentertainment9@gmail.com";
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFields((prev) => ({ ...prev, [name]: value }));
+    setFields((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: false }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: false,
+      }));
     }
   };
 
@@ -30,7 +34,9 @@ function ContactForm() {
 
     const newErrors = {};
     Object.entries(fields).forEach(([key, val]) => {
-      if (!String(val).trim()) newErrors[key] = true;
+      if (!String(val).trim()) {
+        newErrors[key] = true;
+      }
     });
 
     if (Object.keys(newErrors).length > 0) {
@@ -39,42 +45,33 @@ function ContactForm() {
       return;
     }
 
-    setLoading(true);
-    setSubmitted(false);
-
-    const formData = new FormData();
-    formData.append("access_key", "085b1def-60c6-4ede-a317-447945b281ce");
-    formData.append("subject", `Soul FM Contact Form - ${fields.firstName} ${fields.lastName}`);
-    formData.append("from_name", `${fields.firstName} ${fields.lastName}`);
-    formData.append("replyto", fields.email);
-
-    formData.append("First Name", fields.firstName);
-    formData.append("Last Name", fields.lastName);
-    formData.append("Email", fields.email);
-    formData.append("Phone", fields.phone);
-    formData.append("Message", fields.message);
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      setLoading(true);
+      setSubmitted(false);
+
+      const response = await fetch("/api/send-email", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fields),
       });
 
       const data = await response.json();
 
-      if (data.success) {
-        setSubmitted(true);
-        setFields({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-        setErrors({});
-      } else {
-        alert("Something went wrong. Please try again.");
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong.");
       }
+
+      setSubmitted(true);
+      setFields({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+      setErrors({});
     } catch (error) {
       alert("Unable to send message. Please try again.");
     } finally {
@@ -146,8 +143,8 @@ function ContactForm() {
         </div>
 
         <p className="sfm-selected-email">
-          This message will be sent to: <strong>{recipientEmail}</strong>
-        </p>
+  TEST CONTACT LINE — <strong>inquiries.soulfm@gmail.com</strong>
+</p>
 
         <div className="sfm-field">
           <label className="sfm-label">
