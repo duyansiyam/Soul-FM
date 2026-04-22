@@ -17,7 +17,7 @@ export default function ContactCard() {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] w-[95%] max-w-md">
+    <div className="fixed bottom-6 right-6 z-9999 w-[95%] max-w-md">
       <div className="relative bg-white rounded-xl shadow-xl overflow-hidden">
 
         {/* CLOSE BUTTON */}
