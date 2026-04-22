@@ -35,14 +35,16 @@ export async function POST(request) {
     });
 
     if (error) {
+      console.error("Resend error:", error);
       return Response.json(
-        { error: error.message || "Failed to send email." },
+        { error: error.message || JSON.stringify(error) },
         { status: 400 }
       );
     }
 
     return Response.json({ success: true, data }, { status: 200 });
   } catch (err) {
+    console.error("Server error:", err);
     return Response.json(
       { error: err.message || "Failed to send email." },
       { status: 500 }
