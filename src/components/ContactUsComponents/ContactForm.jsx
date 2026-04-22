@@ -143,7 +143,8 @@ function ContactForm() {
         </div>
 
         <p className="sfm-selected-email">
-  TEST CONTACT LINE — <strong>inquiries.soulfm@gmail.com</strong>
+  This message will be sent to:{" "}
+  <strong>inquiries.soulfm@gmail.com</strong>
 </p>
 
         <div className="sfm-field">
