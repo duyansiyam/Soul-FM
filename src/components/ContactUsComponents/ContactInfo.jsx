@@ -34,7 +34,9 @@ function ContactInfo() {
       <div>
         <p className="sfm-info-label">Main Email</p>
         <p className="sfm-info-value">
-          <a href="mailto:inquiries@soulfm.com">inquiries@soulfm.com</a>
+          <a href="mailto:inquiries.soulfm@gmail.com">
+            inquiries.soulfm@gmail.com
+          </a>
         </p>
       </div>
     </aside>
