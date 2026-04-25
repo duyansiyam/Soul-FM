@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 
 function ContactForm() {
@@ -74,7 +73,8 @@ function ContactForm() {
       });
       setErrors({});
     } catch (error) {
-      alert("Unable to send message. Please try again.");
+      // 🔥 shows real backend error now
+      alert(error.message || "Unable to send message. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -144,9 +144,9 @@ function ContactForm() {
         </div>
 
         <p className="sfm-selected-email">
-  This message will be sent to:{" "}
-  <strong>inquiries.soulfm@gmail.com</strong>
-</p>
+          This message will be sent to:{" "}
+          <strong>inquiries.soulfm@gmail.com</strong>
+        </p>
 
         <div className="sfm-field">
           <label className="sfm-label">
