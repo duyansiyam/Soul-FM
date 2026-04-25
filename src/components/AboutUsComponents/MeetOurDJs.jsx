@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import djWaxx from "../../assets/dj-pic1.webp";
 import principalP from "../../assets/dj-pic2.png";
 import fillerDj from "../../assets/dj-fillerpic.webp";
+import gilFrancis from "../../assets/dj-gil-francis.jpg";
+import adinjoy from "../../assets/dj-adinjoy.jpg";
 
 const djs = [
   {
@@ -24,6 +26,28 @@ const djs = [
     vibe: "Soulful R&B · Timeless Hip Hop · Live Mix Energy",
     bio: `Principal P The MC is more than a DJ — he's a curator of culture. As the host of Night School, he brings listeners a late-night curriculum of soulful hip-hop vibes and timeless R&B, blending classics with fresh gems that keep heads nodding and hearts full. From live mixes that move the crowd to deep storytelling segments like In the Studio, Principal P connects music history to the present, showing how hip-hop and R&B continue to shape our lives. His natural energy, love for the culture, and engaging personality create a space where listeners feel part of the conversation — not just tuned in.`,
     index: "02",
+  },
+  {
+    id: 3,
+    photo: gilFrancis,
+    alias: "Gil Francis",
+    realName: "Gil Francis Marbella",
+    show: "The F Spot",
+    tag: "Segment Host",
+    vibe: "OPM Classics · Global Hits · Every Song Tells a Story",
+    bio: `I'm someone who lives and breathes music — and being a DJ has always been a dream of mine. From OPM classics to the latest global hits, I've always believed that every song tells a story, and now I get to share those stories with people through the music I play. Whether I'm behind the mic or curating a playlist, I focus on creating a vibe that people can connect with, relax to, or just enjoy in the moment. Turning this dream into reality is something I don't take lightly, and every set I play is a reflection of that passion. I'm currently part of Soul FM under Just Doin' It Entertainment, where I host my own segment and share a mix of throwbacks, fresh tracks, and everything in between. Music, for me, isn't just background noise — it's a way to bring people together, set moods, and create memories. Outside of the booth, I'm always exploring new sounds, discovering artists, and finding ways to level up my craft as a DJ and host. This is more than just a passion — it's something I'm building and growing every day.`,
+    index: "03",
+  },
+  {
+    id: 4,
+    photo: adinjoy,
+    alias: "Ajoy",
+    realName: "Adinjoy Masucol",
+    show: "Joyful Evenings",
+    tag: "Evening Host",
+    vibe: "R&B · Inspiration · Real-Life Conversations",
+    bio: `Ajoy is an emerging voice on Soul FM, stepping behind the mic with her upcoming program Joyful Evenings — a fresh, heartfelt blend of R&B, inspiration, and real-life conversations about love, purpose, and everything in between. Off-air, Ajoy wears many hats — as a wife, mom, church worker, and LGU employee — bringing with her a grounded, lived perspective that speaks to everyday struggles and quiet victories. With a background as a college instructor and experience in writing and communication, she delivers thoughtful storytelling, emotional depth, and authenticity in every broadcast. Her passion lies in mentoring the youth, strengthening families, and advocating biblical parenting, which she hopes to carry into her program — creating a space where listeners don't just tune in, but feel seen, heard, and encouraged. As she begins her journey on air, Ajoy is shaping Joyful Evenings to be a soothing and engaging companion for listeners from all walks of life — especially for those winding down while still seeking hope, direction, and connection. Driven by a heart to inspire and serve, she aims to use radio as a platform to uplift, comfort, and speak life into everyday journeys.`,
+    index: "04",
   },
 ];
 

@@ -5,6 +5,7 @@ import logo from '../assets/LOGO-HDNOBG.png'
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
+  { to: '/about#djs', label: 'Meet the DJs' },
   { to: '/now-playing', label: 'Now Playing' },
   { to: '/show-schedule', label: 'Schedule' },
   { to: '/community-connections', label: 'Community' },
@@ -40,32 +41,47 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close menu on route change
   useEffect(() => {
     setMenuOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
 
-  // Close menu on Escape key
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
   const handleNavClick = (to) => {
-    if (location.pathname === to) {
-      // Already on the page — just scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+    const [path, hash] = to.split('#')
+
+    if (location.pathname === path) {
+      if (hash) {
+        // Same page with hash — scroll to section
+        const el = document.getElementById(hash)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
-    // Route change is handled by the useEffect above
+
     setMenuOpen(false)
+  }
+
+  const isActive = (to) => {
+    const [path, hash] = to.split('#')
+    if (hash) {
+      // Only highlight "Meet the DJs" when on /about with #djs hash
+      return location.pathname === path && location.hash === `#${hash}`
+    }
+    // Don't mark /about as active when #djs is present
+    if (path === '/about' && location.hash === '#djs') return false
+    return location.pathname === to
   }
 
   return (
@@ -80,7 +96,7 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
 
-        {/* Logo — always scrolls to top */}
+        {/* Logo */}
         <Link
           to="/"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -96,7 +112,7 @@ function Navbar() {
         {/* Desktop nav */}
         <ul className="hidden lg:flex items-center gap-1 list-none">
           {navLinks.map(({ to, label }) => {
-            const active = location.pathname === to
+            const active = isActive(to)
             return (
               <li key={to}>
                 <Link
@@ -147,10 +163,10 @@ function Navbar() {
 
       {/* Mobile menu */}
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
-        ${menuOpen ? 'max-h-80 border-t border-white/4' : 'max-h-0'}`}>
+        ${menuOpen ? 'max-h-96 border-t border-white/4' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">
           {navLinks.map(({ to, label }) => {
-            const active = location.pathname === to
+            const active = isActive(to)
             return (
               <li key={to}>
                 <Link
