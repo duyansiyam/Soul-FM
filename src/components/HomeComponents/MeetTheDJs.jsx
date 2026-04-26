@@ -24,7 +24,7 @@ export default function MeetTheDJs() {
             </h2>
           </div>
           <Link
-            to="/about#djs"
+            to="/meet-our-djs"
             className="self-start text-[11px] tracking-[0.14em] uppercase text-white/20 hover:text-white/60 transition-colors duration-200 border-b border-white/10 hover:border-white/25 pb-0.5"
           >
             Explore →

@@ -6,7 +6,6 @@ import MissionBanner from "../components/AboutUsComponents/MissionBanner";
 import FeaturesSection from "../components/AboutUsComponents/FeaturesSection";
 import RhythmSection from "../components/AboutUsComponents/RhythmSection";
 import CTAFooter from "../components/AboutUsComponents/CTAFooter";
-import MeetOurDJs from "../components/AboutUsComponents/MeetOurDJs";
 
 export default function AboutUs() {
   useEffect(() => {
@@ -35,12 +34,6 @@ export default function AboutUs() {
       <FeaturesSection />
 
       <RhythmSection />
-
-      <Rule />
-
-      <div id="djs">
-        <MeetOurDJs />
-      </div>
 
       <Rule />
 

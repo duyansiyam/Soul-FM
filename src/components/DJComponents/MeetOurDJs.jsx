@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import djWaxx from "../../assets/dj-pic1.webp";
 import principalP from "../../assets/dj-pic2.png";
 import fillerDj from "../../assets/dj-fillerpic.webp";
@@ -52,7 +52,6 @@ const djs = [
 ];
 
 export default function MeetOurDJs() {
-  const navigate = useNavigate();
 
   return (
     <section style={styles.section}>
@@ -96,14 +95,14 @@ export default function MeetOurDJs() {
                 <p style={styles.realName}>{dj.realName}</p>
                 <div style={styles.divider} />
                 <p style={styles.bio}>{dj.bio}</p>
-                <button
+                <Link
+                  to="/now-playing"
                   style={styles.cta}
                   className="dj-cta"
-                  onClick={() => navigate("/now-playing")}
                 >
                   <span style={styles.ctaLine} />
                   Tune In Now
-                </button>
+                </Link>
               </div>
             </div>
           </article>

@@ -5,7 +5,7 @@ import logo from '../assets/LOGO-HDNOBG.png'
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
-  { to: '/about#djs', label: 'Meet the DJs' },
+  { to: '/meet-our-djs', label: 'Meet the DJs' },
   { to: '/now-playing', label: 'Now Playing' },
   { to: '/show-schedule', label: 'Schedule' },
   { to: '/community-connections', label: 'Community' },
@@ -58,29 +58,13 @@ function Navbar() {
   }, [menuOpen])
 
   const handleNavClick = (to) => {
-    const [path, hash] = to.split('#')
-
-    if (location.pathname === path) {
-      if (hash) {
-        // Same page with hash — scroll to section
-        const el = document.getElementById(hash)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-
     setMenuOpen(false)
   }
 
   const isActive = (to) => {
-    const [path, hash] = to.split('#')
-    if (hash) {
-      // Only highlight "Meet the DJs" when on /about with #djs hash
-      return location.pathname === path && location.hash === `#${hash}`
-    }
-    // Don't mark /about as active when #djs is present
-    if (path === '/about' && location.hash === '#djs') return false
     return location.pathname === to
   }
 
