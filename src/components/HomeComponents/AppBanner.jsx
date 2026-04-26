@@ -143,7 +143,7 @@ export default function AppBanner() {
 
           {/* GOOGLE PLAY */}
           <a
-            href="#"
+            href="https://play.google.com/store/apps/details?id=com.m2e38d956d1ee2.app"
             className="group relative inline-flex items-center gap-3 overflow-hidden"
             style={buttonStyle}
           >
