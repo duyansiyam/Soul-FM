@@ -127,7 +127,7 @@ body #cursor.cursor-click {
   outline-offset: 4px;
 }
 
-@media (hover: none), (pointer: coarse) {
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
   html,
   *, *::before, *::after {
     cursor: auto !important;

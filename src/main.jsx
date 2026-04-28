@@ -9,7 +9,7 @@ function initCursor() {
   const cursor = document.getElementById('cursor')
   const ring   = document.getElementById('cursor-ring')
   if (!cursor || !ring) return
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+  if (!window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 769px)').matches) return
 
   let mouseX = 0, mouseY = 0
   let cursorX = -100, cursorY = -100
