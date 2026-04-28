@@ -27,7 +27,7 @@ export default function FullwidthBanner() {
   onClick={() => navigate('/now-playing')}
   className="relative z-10 inline-flex items-center gap-3 px-8 py-4 rounded-full text-[11px] tracking-[0.15em] uppercase
     border border-white/10 text-white/35 hover:border-white/25 hover:text-white/70
-    transition-all duration-300 cursor-pointer bg-transparent"
+    transition-[border-color,color] duration-300 cursor-pointer bg-transparent"
 >
   <span className="w-1 h-1 rounded-full bg-(--color-soul-accent)" />
   Listen Now

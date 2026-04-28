@@ -132,8 +132,9 @@ function ScheduleCard({ time, title, host, description, delay = 0 }) {
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0px) scale(1)' : 'translateY(26px) scale(0.98)',
         transition: `opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+        willChange: visible ? 'auto' : 'opacity, transform',
       }}
-      className="group relative min-h-55 overflow-hidden rounded-[14px] border border-white/6 bg-white/2 p-5 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-[#c0392b]/30 hover:bg-white/4"
+      className="group relative min-h-55 overflow-hidden rounded-[14px] border border-white/6 bg-white/2 p-5 backdrop-blur-sm transition-[transform,border-color,background-color] duration-300 ease-out hover:scale-[1.02] hover:border-[#c0392b]/30 hover:bg-white/4 will-change-transform"
     >
       <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent opacity-60" />
       <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#c0392b]/6 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-70" />
@@ -168,9 +169,10 @@ function FeaturePill({ label, delay, visible }) {
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(12px)',
-        transition: `all 0.45s ease ${delay}ms`,
+        transition: `opacity 0.45s ease ${delay}ms, transform 0.45s ease ${delay}ms`,
+        willChange: visible ? 'auto' : 'opacity, transform',
       }}
-      className="rounded-[14px] border border-white/6 bg-white/2 px-4 py-3 text-[12px] font-light leading-[1.55] text-white/40 transition-all duration-300 hover:border-[#c0392b]/30 hover:bg-[#c0392b]/5 hover:text-white/70"
+      className="rounded-[14px] border border-white/6 bg-white/2 px-4 py-3 text-[12px] font-light leading-[1.55] text-white/40 transition-[border-color,background-color,color] duration-300 hover:border-[#c0392b]/30 hover:bg-[#c0392b]/5 hover:text-white/70"
     >
       <span className="mr-2 inline-block h-1 w-1 rounded-full bg-[#c0392b] opacity-70 align-middle" />
       {label}
@@ -194,6 +196,7 @@ export default function ShowSchedule() {
     opacity: visible ? 1 : 0,
     transform: visible ? 'translateY(0px)' : `translateY(${y}px)`,
     transition: `opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+    willChange: visible ? 'auto' : 'opacity, transform',
   })
 
   return (
@@ -309,14 +312,14 @@ export default function ShowSchedule() {
               <div style={reveal(heroReady, 340, 22)} className="mt-10 flex flex-wrap gap-3">
                 <Link
                   to="/now-playing"
-                  className="inline-flex items-center gap-3 rounded-full bg-[#a33222] px-7 py-3.5 text-[11px] font-normal uppercase tracking-[0.14em] text-white transition-all duration-200 hover:shadow-[0_0_28px_rgba(163,50,34,0.45)]"
+                  className="inline-flex items-center gap-3 rounded-full bg-[#a33222] px-7 py-3.5 text-[11px] font-normal uppercase tracking-[0.14em] text-white transition-shadow duration-200 hover:shadow-[0_0_28px_rgba(163,50,34,0.45)]"
                 >
                   Listen Now
                 </Link>
 
                 <a
                   href="#weekly-schedule"
-                  className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/3 px-7 py-3.5 text-[11px] font-light uppercase tracking-[0.14em] text-white/50 backdrop-blur-sm transition-all duration-300 hover:border-[#c0392b]/40 hover:text-white/80"
+                  className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/3 px-7 py-3.5 text-[11px] font-light uppercase tracking-[0.14em] text-white/50 backdrop-blur-sm transition-[border-color,color] duration-300 hover:border-[#c0392b]/40 hover:text-white/80"
                 >
                   View Schedule
                 </a>
@@ -431,9 +434,10 @@ export default function ShowSchedule() {
             style={{
               opacity: featureVisible ? 1 : 0,
               transform: featureVisible ? 'translateY(0px) scale(1)' : 'translateY(24px) scale(0.96)',
-              transition:
-                'opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1)',
-            }}
+            transition:
+              'opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1)',
+              willChange: featureVisible ? 'auto' : 'opacity, transform',
+          }}
             className="group overflow-hidden rounded-3xl border border-white/6 bg-[#0f0f0f] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
           >
             <img
@@ -545,7 +549,7 @@ export default function ShowSchedule() {
           <div style={reveal(ctaVisible, 260, 20)}>
             <Link
               to="/now-playing"
-              className="inline-flex items-center gap-3 rounded-full border border-[#c0392b]/30 px-8 py-4 text-[11px] font-light uppercase tracking-[0.17em] text-white/50 transition-all duration-300 hover:border-[#c0392b]/70 hover:text-white/85 hover:shadow-[0_0_32px_rgba(192,57,43,0.15)]"
+              className="inline-flex items-center gap-3 rounded-full border border-[#c0392b]/30 px-8 py-4 text-[11px] font-light uppercase tracking-[0.17em] text-white/50 transition-[border-color,color,box-shadow] duration-300 hover:border-[#c0392b]/70 hover:text-white/85 hover:shadow-[0_0_32px_rgba(192,57,43,0.15)]"
             >
               <span className="h-1 w-1 rounded-full bg-[#c0392b]" />
               Go to Now Playing

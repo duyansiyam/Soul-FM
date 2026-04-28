@@ -78,6 +78,7 @@ export default function CommunityConnections() {
           border: 1px solid #1f1f1f;
           cursor: pointer;
           box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+          will-change: transform;
         }
 
         .gallery-image {
@@ -85,7 +86,8 @@ export default function CommunityConnections() {
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.6s ease, filter 0.35s ease;
+          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+          will-change: transform;
         }
 
         .gallery-card:hover .gallery-image {
@@ -110,7 +112,8 @@ export default function CommunityConnections() {
         .image-meta {
           transform: translateY(10px);
           opacity: 0.94;
-          transition: all 0.35s ease;
+          transition: transform 0.35s ease, opacity 0.35s ease;
+          will-change: transform, opacity;
         }
 
         .gallery-card:hover .image-meta {
@@ -186,6 +189,7 @@ export default function CommunityConnections() {
           display: flex;
           align-items: center;
           justify-content: center;
+          will-change: transform, opacity;
         }
 
         .lightbox-image-wrap {

@@ -9,28 +9,28 @@ function initCursor() {
   const cursor = document.getElementById('cursor')
   const ring   = document.getElementById('cursor-ring')
   if (!cursor || !ring) return
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
 
   let mouseX = 0, mouseY = 0
+  let cursorX = -100, cursorY = -100
   let ringX  = 0, ringY  = 0
   let visible = false
+  let hovering = false
 
   // Hide until first mouse move
   cursor.style.opacity = '0'
   ring.style.opacity   = '0'
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener('pointermove', (e) => {
     mouseX = e.clientX
     mouseY = e.clientY
-
-    cursor.style.left = mouseX + 'px'
-    cursor.style.top  = mouseY + 'px'
 
     if (!visible) {
       visible = true
       cursor.style.opacity = '1'
       ring.style.opacity   = '1'
     }
-  })
+  }, { passive: true })
 
   // Hide when mouse leaves the window
   document.addEventListener('mouseleave', () => {
@@ -45,27 +45,36 @@ function initCursor() {
     }
   })
 
-  // Ring trails with lerp
-  function animateRing() {
+  // Keep all cursor movement on the compositor with transform-backed CSS vars.
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.65
+    cursorY += (mouseY - cursorY) * 0.65
     ringX += (mouseX - ringX) * 0.12
     ringY += (mouseY - ringY) * 0.12
-    ring.style.left = ringX + 'px'
-    ring.style.top  = ringY + 'px'
-    requestAnimationFrame(animateRing)
+    cursor.style.setProperty('--cursor-x', `${cursorX}px`)
+    cursor.style.setProperty('--cursor-y', `${cursorY}px`)
+    ring.style.setProperty('--ring-x', `${ringX}px`)
+    ring.style.setProperty('--ring-y', `${ringY}px`)
+    requestAnimationFrame(animateCursor)
   }
-  animateRing()
+  animateCursor()
 
   // Hover state — also works for dynamically added elements via delegation
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('a, button, [data-cursor-hover]')) {
+  document.addEventListener('pointerover', (e) => {
+    const isHoverTarget = Boolean(e.target.closest('a, button, [data-cursor-hover]'))
+    if (isHoverTarget && !hovering) {
+      hovering = true
       document.body.classList.add('cursor-hover')
     }
-  })
-  document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('a, button, [data-cursor-hover]')) {
+  }, { passive: true })
+  document.addEventListener('pointerout', (e) => {
+    const hoverTarget = e.target.closest('a, button, [data-cursor-hover]')
+    const stillInside = hoverTarget && e.relatedTarget instanceof Element && hoverTarget.contains(e.relatedTarget)
+    if (hoverTarget && !stillInside && hovering) {
+      hovering = false
       document.body.classList.remove('cursor-hover')
     }
-  })
+  }, { passive: true })
 
   // Click pulse
   window.addEventListener('mousedown', () => cursor.classList.add('cursor-click'))

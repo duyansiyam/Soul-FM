@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import logo from '../assets/LOGO-HDNOBG.png'
 
@@ -13,38 +13,41 @@ const navLinks = [
 
 function Navbar() {
   const location = useLocation()
-  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(true)
   const lastScrollY = useRef(0)
+  const frameRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => {
-      const currentY = window.scrollY
-      const prev = lastScrollY.current
+      if (frameRef.current) return
 
-      if (currentY <= 80) {
-        setVisible(true)
-      } else if (currentY < prev - 5) {
-        setVisible(true)
-      } else if (currentY > prev + 5) {
-        setVisible(false)
-        setMenuOpen(false)
-      }
+      frameRef.current = requestAnimationFrame(() => {
+        const currentY = window.scrollY
+        const prev = lastScrollY.current
 
-      setScrolled(currentY > 20)
-      lastScrollY.current = currentY
+        if (currentY <= 80) {
+          setVisible(true)
+        } else if (currentY < prev - 5) {
+          setVisible(true)
+        } else if (currentY > prev + 5) {
+          setVisible(false)
+          setMenuOpen(false)
+        }
+
+        setScrolled(currentY > 20)
+        lastScrollY.current = currentY
+        frameRef.current = null
+      })
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
+    }
   }, [])
-
-  useEffect(() => {
-    setMenuOpen(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [location.pathname])
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
@@ -71,7 +74,7 @@ function Navbar() {
   return (
     <nav
       style={{ fontFamily: 'var(--font-body)' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500
+      className={`fixed top-0 left-0 right-0 z-50 transition-[transform,background-color,border-color,backdrop-filter] duration-500 ease-out will-change-transform
         ${visible ? 'translate-y-0' : '-translate-y-full'}
         ${scrolled || menuOpen
           ? 'border-b border-white/5 bg-(--color-soul-black)/98 backdrop-blur-2xl'
@@ -103,7 +106,7 @@ function Navbar() {
                   to={to}
                   onClick={() => handleNavClick(to)}
                   className={`relative block px-4 py-2 text-[12px] tracking-[0.08em] uppercase rounded-md
-                    transition-all duration-200 ease-out
+                    transition-[color,transform,filter] duration-200 ease-out
                     hover:scale-105 hover:brightness-125
                     ${active ? 'text-white' : 'text-white/60 hover:text-white'}`}
                 >
@@ -126,7 +129,7 @@ function Navbar() {
               bg-white text-black
               hover:bg-black hover:text-white hover:scale-105
               border border-white
-              transition-all duration-200 ease-out"
+              transition-[background-color,color,transform] duration-200 ease-out will-change-transform"
           >
             Get In Touch
             <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />
@@ -138,15 +141,15 @@ function Navbar() {
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
-            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? 'opacity-0 w-0' : ''}`} />
-            <span className={`block w-5 h-px bg-white/50 transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+            <span className={`block w-5 h-px bg-white/50 transition-transform duration-300 ease-out ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+            <span className={`block w-5 h-px bg-white/50 transition-opacity duration-200 ease-out ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block w-5 h-px bg-white/50 transition-transform duration-300 ease-out ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out
+      <div className={`lg:hidden overflow-hidden transition-[max-height,border-color] duration-300 ease-in-out
         ${menuOpen ? 'max-h-96 border-t border-white/4' : 'max-h-0'}`}>
         <ul className="px-6 py-4 flex flex-col gap-0.5 list-none">
           {navLinks.map(({ to, label }) => {
@@ -157,7 +160,7 @@ function Navbar() {
                   to={to}
                   onClick={() => handleNavClick(to)}
                   className={`block px-3 py-2.5 text-[12px] tracking-[0.08em] uppercase rounded-md
-                    transition-all duration-150
+                    transition-[color,background-color] duration-150
                     ${active ? 'text-white bg-white/5' : 'text-white/55 hover:text-white'}`}
                 >
                   {label}
@@ -172,7 +175,7 @@ function Navbar() {
               className="inline-block relative px-4 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold
                 bg-white text-black rounded-md border border-white
                 hover:bg-black hover:text-white
-                transition-all duration-150"
+                transition-[background-color,color] duration-150"
             >
               Get In Touch
               <span className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 rounded-full bg-red-600 border border-white/40" />

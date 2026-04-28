@@ -99,7 +99,8 @@ function Footer() {
           border: 1px solid rgba(255,255,255,0.08);
           background: rgba(255,255,255,0.04);
           color: rgb(255, 255, 255);
-          transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+          will-change: transform;
           text-decoration: none;
           position: relative;
           overflow: hidden;

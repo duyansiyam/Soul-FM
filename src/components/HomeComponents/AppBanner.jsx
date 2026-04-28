@@ -16,15 +16,6 @@ export default function AppBanner() {
     return () => observer.disconnect()
   }, [])
 
-  const shimmerEffect = (el) => {
-    if (!el) return
-    const btn = el.parentElement
-    const over = () => (el.style.transform = 'scaleX(1)')
-    const out = () => (el.style.transform = 'scaleX(0)')
-    btn.addEventListener('mouseenter', over)
-    btn.addEventListener('mouseleave', out)
-  }
-
   const buttonStyle = {
   border: '1px solid var(--color-soul-accent)',
   padding: '1rem 1.6rem',
@@ -35,7 +26,7 @@ export default function AppBanner() {
   fontWeight: 500,
   textTransform: 'uppercase',
   background: 'transparent',
-  transition: 'all 0.3s ease',
+  transition: 'border-color 0.3s ease, color 0.3s ease, transform 0.3s ease',
 
   minWidth: '260px',
 
@@ -66,7 +57,8 @@ export default function AppBanner() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.8s ease'
+            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            willChange: visible ? 'auto' : 'opacity, transform',
           }}
           className="flex flex-col gap-6 max-w-xl"
         >
@@ -107,7 +99,8 @@ export default function AppBanner() {
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 0.8s ease 0.2s'
+            transition: 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s',
+            willChange: visible ? 'auto' : 'opacity, transform',
           }}
           className="flex flex-col gap-4 w-full md:w-auto items-center md:items-end"
         >
@@ -121,13 +114,9 @@ export default function AppBanner() {
             style={buttonStyle}
           >
             <span
-              ref={shimmerEffect}
-              className="absolute inset-0"
+              className="absolute inset-0 origin-left scale-x-0 transition-transform duration-[450ms] ease-out group-hover:scale-x-100"
               style={{
                 background: 'var(--color-soul-accent)',
-                transform: 'scaleX(0)',
-                transformOrigin: 'left',
-                transition: '0.45s'
               }}
             />
 
@@ -148,13 +137,9 @@ export default function AppBanner() {
             style={buttonStyle}
           >
             <span
-              ref={shimmerEffect}
-              className="absolute inset-0"
+              className="absolute inset-0 origin-left scale-x-0 transition-transform duration-[450ms] ease-out group-hover:scale-x-100"
               style={{
                 background: 'var(--color-soul-accent)',
-                transform: 'scaleX(0)',
-                transformOrigin: 'left',
-                transition: '0.45s'
               }}
             />
 

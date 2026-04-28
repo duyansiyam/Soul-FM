@@ -24,7 +24,7 @@ export default function HeroSection() {
         background: 'linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.3) 50%, transparent 100%)'
       }} />
 
-      <div className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 pt-40 transition-all duration-1000 ease-out
+      <div className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 pt-40 transition-[opacity,transform] duration-1000 ease-out will-change-transform
         ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
 
         <p className="text-[10px] tracking-[0.25em] uppercase text-white/30 mb-6">
@@ -55,7 +55,7 @@ export default function HeroSection() {
             to="/now-playing"
             className="group flex items-center gap-3 px-7 py-3.5 rounded-full text-[12px] tracking-[0.12em] uppercase font-medium
               bg-(--color-soul-accent) text-(--color-soul-black)
-              hover:brightness-110 transition-all duration-200 active:scale-95"
+              hover:brightness-110 transition-[filter,transform] duration-200 active:scale-95"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-(--color-soul-black)/50 group-hover:animate-ping" />
             Listen Now

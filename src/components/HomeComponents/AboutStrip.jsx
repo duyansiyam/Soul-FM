@@ -75,7 +75,7 @@ export default function AboutStrip() {
                 onClick={() => setActive(g)}
                 style={{ animationDelay: `${0.85 + i * 0.08}s` }}
                 className={`
-                  px-3 py-1.5 rounded-full text-[9.5px] tracking-[0.14em] uppercase border transition-all duration-250
+                  px-3 py-1.5 rounded-full text-[9.5px] tracking-[0.14em] uppercase border transition-[transform,border-color,color,background-color] duration-250
                   animate-[tagIn_0.5s_cubic-bezier(0.16,1,0.3,1)_both]
                   hover:-translate-y-0.5
                   ${active === g
