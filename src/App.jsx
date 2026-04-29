@@ -15,7 +15,7 @@ import MeetOurDJsPage from './pages/MeetOurDJs'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [pathname])
   return null
 }
 

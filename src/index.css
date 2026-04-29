@@ -28,6 +28,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   cursor: none;
+  text-rendering: optimizeLegibility;
 }
 
 /* Hide native cursor on all elements too */
@@ -52,6 +53,9 @@ body::before {
   pointer-events: none;
   z-index: 9999;
   opacity: 0.5;
+  contain: paint;
+  transform: translateZ(0);
+  will-change: opacity;
 }
 
 /* ─── Cursor ─────────────────────────────────────── */
@@ -59,18 +63,28 @@ body::before {
 #cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 6px; height: 6px;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
   background: var(--color-soul-white);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
+  --cursor-x: -100px;
+  --cursor-y: -100px;
+  --cursor-size: 6px;
+  transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%);
   /* no mix-blend-mode — invisible on near-black bg */
   transition:
-    transform  0.08s ease,
-    opacity    0.2s  ease,
-    background 0.2s  ease;
-  will-change: left, top, transform;
+    width      0.14s ease,
+    height     0.14s ease,
+    opacity    0.18s ease,
+    background 0.18s ease,
+    outline-color 0.12s ease,
+    outline-offset 0.12s ease;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 #cursor-ring {
@@ -81,21 +95,24 @@ body::before {
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
-  transform: translate(-50%, -50%);
+  --ring-x: -100px;
+  --ring-y: -100px;
+  --ring-scale: 1;
+  transform: translate3d(var(--ring-x), var(--ring-y), 0) translate(-50%, -50%) scale(var(--ring-scale));
   transition:
     border-color 0.2s ease,
-    transform    0.15s ease,
     opacity      0.2s  ease;
-  will-change: left, top, transform;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 /* Hover state */
 body.cursor-hover #cursor {
-  transform: translate(-50%, -50%) scale(3);
+  --cursor-size: 18px;
   background: var(--color-soul-white);
 }
 body.cursor-hover #cursor-ring {
-  transform: translate(-50%, -50%) scale(1.4);
+  --ring-scale: 1.4;
   border-color: rgba(240, 240, 240, 0.12);
 }
 
@@ -106,7 +123,35 @@ ul#cards {
 
 /* Click pulse */
 body #cursor.cursor-click {
-  transform: translate(-50%, -50%) scale(0.6);
+  outline: 2px solid rgba(240, 240, 240, 0.75);
+  outline-offset: 4px;
+}
+
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  html,
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+
+  #cursor,
+  #cursor-ring {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* ─── Selection ──────────────────────────────────── */
