@@ -1,10 +1,19 @@
+import { useRef, useEffect, memo } from "react";
 import heroVideo from "../../assets/hero-video.mp4";
 import EQBars from "./EQBars";
 
 const NAV_H = 64;
 
-// ─── Hero Section ─────────────────────────────────
-export default function HeroSection() {
+export default memo(function HeroSection() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.src = heroVideo;
+    v.play().catch(() => {});
+  }, []);
+
   return (
     <section
       style={{
@@ -18,13 +27,22 @@ export default function HeroSection() {
       }}
     >
       {/* Hero video */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          willChange: "transform",
+          transform: "translateZ(0)",
+        }}
+      >
         <video
-          src={heroVideo}
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="none"
           style={{
             width: "100%",
             height: "100%",
@@ -33,7 +51,6 @@ export default function HeroSection() {
             display: "block",
           }}
         />
-        {/* Dark gradient so text stays readable over video */}
         <div
           style={{
             position: "absolute",
@@ -45,7 +62,10 @@ export default function HeroSection() {
       </div>
 
       {/* Hero text */}
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900 }}>
+      <div
+        className="hero-text-enter"
+        style={{ position: "relative", zIndex: 1, maxWidth: 900 }}
+      >
         <div
           style={{
             fontFamily: "var(--font-body)",
@@ -58,8 +78,8 @@ export default function HeroSection() {
             alignItems: "center",
             gap: 12,
             marginBottom: "1.5rem",
-            animation: "soulfm-fadein 0.8s 0.1s both ease",
           }}
+          className="hero-fade-1"
         >
           <span
             style={{
@@ -81,8 +101,8 @@ export default function HeroSection() {
             letterSpacing: "-0.03em",
             color: "var(--color-soul-white)",
             margin: "0 0 1.5rem",
-            animation: "soulfm-fadein 0.9s 0.25s both ease",
           }}
+          className="hero-fade-2"
         >
           Revive Your Love
           <br />
@@ -101,17 +121,17 @@ export default function HeroSection() {
             maxWidth: 520,
             lineHeight: 1.75,
             margin: "0 0 2rem",
-            animation: "soulfm-fadein 0.9s 0.4s both ease",
           }}
+          className="hero-fade-3"
         >
           San Bernardino's home for rhythm, soul, and the music that moves you —
           24 hours a day.
         </p>
 
-        <div style={{ animation: "soulfm-fadein 0.8s 0.55s both ease" }}>
+        <div className="hero-fade-4">
           <EQBars />
         </div>
       </div>
     </section>
   );
-}
+});
