@@ -9,6 +9,7 @@ const navLinks = [
   { to: '/now-playing', label: 'Now Playing' },
   { to: '/show-schedule', label: 'Schedule' },
   { to: '/community-connections', label: 'Community' },
+  { to: '/events', label: 'Events' },
 ]
 
 function Navbar() {

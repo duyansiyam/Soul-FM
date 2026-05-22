@@ -12,6 +12,7 @@ import ContactUs from './pages/ContactUs'
 import CookieBanner from './components/CookieBanner'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import MeetOurDJsPage from './pages/MeetOurDJs'
+import Events from './pages/Events.jsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -34,6 +35,7 @@ function App() {
         <Route path="/community-connections" element={<CommunityConnections />} />
         <Route path="/contact-us" element={<ContactUs />} />
          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+         <Route path="/events" element={<Events />} />
       </Routes>
 
       <Footer />
