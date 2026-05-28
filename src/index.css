@@ -116,6 +116,21 @@ body.cursor-hover #cursor-ring {
   border-color: rgba(240, 240, 240, 0.12);
 }
 
+/* Admin section cursor (black on white background) */
+.admin-section #cursor {
+  --cursor-color: #000000;
+  background: var(--cursor-color);
+}
+.admin-section #cursor-ring {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+.admin-section.cursor-hover #cursor {
+  background: var(--cursor-color);
+}
+.admin-section.cursor-hover #cursor-ring {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
 /* ─── Stacking Cards Animation ─────────────────── */
 ul#cards {
   padding-bottom: calc(var(--numcards, 4) * 1.5rem);
