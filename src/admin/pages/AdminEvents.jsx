@@ -1,136 +1,122 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useAdminAuth } from '../context/AdminAuthContext';
-import Badge             from '../components/EventComponents/Badge';
-import Modal             from '../components/EventComponents/Modal';
-import EventForm, { EMPTY_FORM } from '../components/EventComponents/EventForm';
-import EventTableRow     from '../components/EventComponents/EventTableRow';
-import FullEventDrawer   from '../components/EventComponents/FullEventDrawer';
-import DeleteConfirm     from '../components/EventComponents/DeleteConfirm';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  orderBy,
+} from 'firebase/firestore'
+import { db } from '../../firebase'
 
-const API = import.meta.env.VITE_API_URL;
+const BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
 export default function AdminEvents() {
-  const { getToken } = useAdminAuth();
+  const navigate = useNavigate()
 
-  const [events,   setEvents]   = useState([]);
-  const [total,    setTotal]    = useState(0);
-  const [fetching, setFetching] = useState(true);
-  const [fetchErr, setFetchErr] = useState('');
+  const [events, setEvents] = useState([])
+  const [fetching, setFetching] = useState(true)
+  const [fetchErr, setFetchErr] = useState('')
+  const [filters, setFilters] = useState({ status: '', category: '' })
 
-  const [filters, setFilters] = useState({ status: '', category: '' });
+  const fetchEvents = async () => {
+    setFetching(true)
+    setFetchErr('')
 
-  const [modal,    setModal]    = useState(null); // 'create' | 'edit' | 'delete' | 'full' | null
-  const [selected, setSelected] = useState(null);
-
-  const [formLoading, setFormLoading] = useState(false);
-  const [formError,   setFormError]   = useState('');
-
-  // ── Fetch ────────────────────────────────────────────────
-  const fetchEvents = useCallback(async () => {
-    setFetching(true); setFetchErr('');
     try {
-      const params = new URLSearchParams();
-      if (filters.status)   params.set('status',   filters.status);
-      if (filters.category) params.set('category', filters.category);
-      const res  = await fetch(`${API}/events?${params}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      setEvents(data.events ?? []);
-      setTotal(data.count  ?? 0);
-    } catch (e) {
-      setFetchErr(e.message);
+      const eventsQuery = query(
+        collection(db, 'events'),
+        orderBy('event_date', 'asc')
+      )
+
+      const snapshot = await getDocs(eventsQuery)
+
+      const data = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+      }))
+
+      setEvents(data)
+    } catch (error) {
+      console.log(error)
+      setFetchErr('Failed to fetch events from Firebase')
     } finally {
-      setFetching(false);
+      setFetching(false)
     }
-  }, [filters]);
+  }
 
-  useEffect(() => { fetchEvents(); }, [fetchEvents]);
+  useEffect(() => {
+    fetchEvents()
+  }, [])
 
-  // ── Helpers ──────────────────────────────────────────────
-  const closeModal = () => { setModal(null); setSelected(null); setFormError(''); };
+  const filteredEvents = events.filter((event) => {
+    const matchStatus = filters.status
+      ? event.status === filters.status
+      : true
 
-  const openCreate = () => { setSelected(null); setFormError(''); setModal('create'); };
+    const matchCategory = filters.category
+      ? event.category?.toLowerCase().includes(filters.category.toLowerCase())
+      : true
 
-  const openEdit = (event) => { setSelected(event); setFormError(''); setModal('edit'); };
+    return matchStatus && matchCategory
+  })
 
-  const openDelete = (event) => { setSelected(event); setFormError(''); setModal('delete'); };
+  const formatDate = (dateValue) => {
+    if (!dateValue) return 'Date TBA'
 
-  const openFull = async (event) => {
+    const date = dateValue?.toDate ? dateValue.toDate() : new Date(dateValue)
+
+    return date.toLocaleString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
+  const goToDashboard = (event) => {
+    navigate(`${BASE}/dashboard/${event.id}`)
+  }
+
+  const handleDelete = async (eventId) => {
+    const confirmDelete = window.confirm('Delete this event?')
+
+    if (!confirmDelete) return
+
     try {
-      const res  = await fetch(`${API}/events/${event.event_id ?? event.id}/full`);
-      const data = await res.json();
-      setSelected(data);
-    } catch {
-      setSelected(event);
+      await deleteDoc(doc(db, 'events', eventId))
+      fetchEvents()
+    } catch (error) {
+      console.log(error)
+      alert('Failed to delete event')
     }
-    setModal('full');
-  };
+  }
 
-  // ── CRUD ─────────────────────────────────────────────────
-  const handleCreate = async (form) => {
-    setFormLoading(true); setFormError('');
-    try {
-      const res  = await fetch(`${API}/events`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Failed to create event');
-      closeModal(); fetchEvents();
-    } catch (e) { setFormError(e.message); }
-    finally      { setFormLoading(false); }
-  };
-
-  const handleEdit = async (form) => {
-    setFormLoading(true); setFormError('');
-    try {
-      const id   = selected.event_id ?? selected.id;
-      const res  = await fetch(`${API}/events/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Failed to update event');
-      closeModal(); fetchEvents();
-    } catch (e) { setFormError(e.message); }
-    finally      { setFormLoading(false); }
-  };
-
-  const handleDelete = async () => {
-    setFormLoading(true); setFormError('');
-    try {
-      const id  = selected.event_id ?? selected.id;
-      const res = await fetch(`${API}/events/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Failed to delete event');
-      closeModal(); fetchEvents();
-    } catch (e) { setFormError(e.message); }
-    finally      { setFormLoading(false); }
-  };
-
-  // ── Render ───────────────────────────────────────────────
   return (
     <div className="p-8 min-h-screen bg-gray-50">
-
-      {/* Top bar */}
       <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
         <div>
-          <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-1">Management</p>
-          <h1 className="text-2xl font-bold text-gray-900">Events</h1>
+          <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-1">
+            Management
+          </p>
+
+          <h1 className="text-2xl font-bold text-gray-900">
+            Events
+          </h1>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           <select
             className="text-sm border border-gray-300 rounded-lg px-3 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={filters.status}
-            onChange={(e) => setFilters((p) => ({ ...p, status: e.target.value }))}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, status: e.target.value }))
+            }
           >
             <option value="">All Statuses</option>
+            <option value="published">Published</option>
             <option value="active">Active</option>
             <option value="draft">Draft</option>
             <option value="cancelled">Cancelled</option>
@@ -141,11 +127,12 @@ export default function AdminEvents() {
             className="text-sm border border-gray-300 rounded-lg px-3 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
             placeholder="Filter by category…"
             value={filters.category}
-            onChange={(e) => setFilters((p) => ({ ...p, category: e.target.value }))}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, category: e.target.value }))
+            }
           />
 
           <button
-            onClick={openCreate}
             className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition uppercase tracking-wide"
           >
             + New Event
@@ -153,96 +140,98 @@ export default function AdminEvents() {
         </div>
       </div>
 
-      {/* Error banner */}
       {fetchErr && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 flex items-center gap-2 mb-4">
-          <span>⚠</span><span>{fetchErr}</span>
+          <span>⚠</span>
+          <span>{fetchErr}</span>
         </div>
       )}
 
-      {/* Count */}
       <p className="text-xs text-gray-400 mb-3 uppercase tracking-wide">
-        {fetching ? 'Loading…' : `${total} event${total !== 1 ? 's' : ''} found`}
+        {fetching
+          ? 'Loading…'
+          : `${filteredEvents.length} event${filteredEvents.length !== 1 ? 's' : ''} found`}
       </p>
 
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+      <div className="space-y-4">
         {fetching ? (
-          <p className="text-center py-16 text-sm text-gray-400">Loading events…</p>
-        ) : events.length === 0 ? (
-          <p className="text-center py-16 text-sm text-gray-400">No events found. Create one!</p>
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-16 text-center text-sm text-gray-400">
+            Loading events…
+          </div>
+        ) : filteredEvents.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-16 text-center text-sm text-gray-400">
+            No events found. Create one!
+          </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-100">
-                {['Event', 'Date', 'Venue', 'Category', 'Status', 'Capacity', ''].map((h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((ev) => (
-                <EventTableRow
-                  key={ev.event_id ?? ev.id}
-                  event={ev}
-                  onView={openFull}
-                  onEdit={openEdit}
-                  onDelete={openDelete}
-                />
-              ))}
-            </tbody>
-          </table>
+          filteredEvents.map((event) => (
+            <div
+              key={event.id}
+              className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center justify-between gap-5 hover:shadow-md transition"
+            >
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-20 h-28 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                  {event.poster_image ? (
+                    <img
+                      src={event.poster_image}
+                      alt={event.title || 'Event poster'}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                      No Image
+                    </div>
+                  )}
+                </div>
+
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h2 className="text-sm font-bold text-gray-900">
+                      {event.title || 'Untitled Event'}
+                    </h2>
+
+                    <span className="px-2 py-0.5 rounded-full text-xs border border-green-300 bg-green-50 text-green-700">
+                      ● {event.status || 'Published'}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-gray-600 mt-4">
+                    ● {formatDate(event.event_date)}
+                  </p>
+
+                  <p className="text-xs text-gray-600 mt-2">
+                    📍 {event.venue?.name || event.location_address || 'Venue TBA'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 shrink-0">
+                <button
+                  onClick={() => goToDashboard(event)}
+                  className="text-sky-500 hover:text-sky-700 text-lg"
+                  title="Event Dashboard"
+                >
+                  ▣
+                </button>
+
+                <button
+                  className="text-gray-500 hover:text-blue-600 text-lg"
+                  title="Edit Event"
+                >
+                  ✎
+                </button>
+
+                <button
+                  onClick={() => handleDelete(event.id)}
+                  className="text-gray-500 hover:text-red-600 text-lg"
+                  title="Delete Event"
+                >
+                  🗑
+                </button>
+              </div>
+            </div>
+          ))
         )}
       </div>
-
-      {/* Modals */}
-      {modal === 'create' && (
-        <Modal title="Create New Event" onClose={closeModal}>
-          <EventForm onSubmit={handleCreate} loading={formLoading} error={formError} />
-        </Modal>
-      )}
-
-      {modal === 'edit' && selected && (
-        <Modal title="Edit Event" onClose={closeModal}>
-          <EventForm
-            initial={{
-              event_name:       selected.event_name              ?? '',
-              event_date:       selected.event_date?.slice(0,10) ?? '',
-              start_time:       selected.start_time              ?? '',
-              end_time:         selected.end_time                ?? '',
-              location_name:    selected.location_name           ?? '',
-              location_address: selected.location_address        ?? '',
-              description:      selected.description             ?? '',
-              category:         selected.category                ?? '',
-              status:           selected.status                  ?? 'draft',
-              banner_url:       selected.banner_url              ?? '',
-              max_capacity:     selected.max_capacity            ?? '',
-            }}
-            onSubmit={handleEdit}
-            loading={formLoading}
-            error={formError}
-          />
-        </Modal>
-      )}
-
-      {modal === 'delete' && selected && (
-        <DeleteConfirm
-          event={selected}
-          onConfirm={handleDelete}
-          onClose={closeModal}
-          loading={formLoading}
-          error={formError}
-        />
-      )}
-
-      {modal === 'full' && selected && (
-        <FullEventDrawer event={selected} onClose={closeModal} />
-      )}
     </div>
-  );
+  )
 }
