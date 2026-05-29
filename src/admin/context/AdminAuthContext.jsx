@@ -1,57 +1,46 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from '../../firebase'
 
-const AdminAuthContext = createContext(null);
+const AdminAuthContext = createContext(null)
 
 export function AdminAuthProvider({ children }) {
-  const [admin, setAdmin] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [admin, setAdmin] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    const profile = localStorage.getItem('admin_profile');
-    if (token && profile) {
-      setAdmin(JSON.parse(profile));
-    }
-    setLoading(false);
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAdmin({
+          uid: user.uid,
+          email: user.email,
+        })
+      } else {
+        setAdmin(null)
+      }
 
-  const login = async (uid) => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid }),
-    });
-    if (!res.ok) throw new Error('Login failed');
-    const { token } = await res.json();
+      setLoading(false)
+    })
 
-    // Fetch profile to verify role
-    const profileRes = await fetch(`${import.meta.env.VITE_API_URL}/auth/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!profileRes.ok) throw new Error('Could not fetch profile');
-    const profile = await profileRes.json();
+    return () => unsubscribe()
+  }, [])
 
-    if (profile.role !== 'admin') throw new Error('Access denied: not an admin');
-
-    localStorage.setItem('admin_token', token);
-    localStorage.setItem('admin_profile', JSON.stringify(profile));
-    setAdmin(profile);
-    return profile;
-  };
-
-  const logout = () => {
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_profile');
-    setAdmin(null);
-  };
-
-  const getToken = () => localStorage.getItem('admin_token');
+  const logout = async () => {
+    await signOut(auth)
+    setAdmin(null)
+  }
 
   return (
-    <AdminAuthContext.Provider value={{ admin, loading, login, logout, getToken }}>
+    <AdminAuthContext.Provider
+      value={{
+        admin,
+        loading,
+        logout,
+      }}
+    >
       {children}
     </AdminAuthContext.Provider>
-  );
+  )
 }
 
-export const useAdminAuth = () => useContext(AdminAuthContext);
+export const useAdminAuth = () => useContext(AdminAuthContext)
