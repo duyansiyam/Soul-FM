@@ -60,6 +60,13 @@ function App() {
   const { pathname } = useLocation()
   const isAdmin = pathname.startsWith(ADMIN_BASE)
 
+  // Toggle admin-section class on body so #cursor and #cursor-ring
+  // (which live outside this component tree) can be targeted via CSS
+  useEffect(() => {
+    document.body.classList.toggle('admin-section', isAdmin)
+    return () => document.body.classList.remove('admin-section')
+  }, [isAdmin])
+
   return (
     <div style={{ overflowX: isAdmin ? 'unset' : 'clip' }}>
       <ScrollToTop />
@@ -79,7 +86,6 @@ function App() {
           >
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="events" element={<AdminEvents />} />
-            
           </Route>
 
           {/* ── Public App ───────────────────────────────────── */}
