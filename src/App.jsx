@@ -22,34 +22,40 @@ import AdminProtectedRoute from './admin/components/AdminProtectedRoute'
 import AdminLayout from './admin/components/AdminLayout'
 import AdminLogin from './admin/pages/AdminLogin'
 import AdminDashboard from './admin/pages/AdminDashboard'
-// import AdminTickets from './admin/pages/AdminTickets'   // add later
-// import AdminUsers from './admin/pages/AdminUsers'       // add later
 import AdminEvents from './admin/pages/AdminEvents'
 
 const ADMIN_BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [pathname])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [pathname])
+
   return null
 }
 
-// Wrapper that hides the public Navbar/Footer on admin routes
 function PublicLayout() {
   return (
     <>
       <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/meet-our-djs" element={<MeetOurDJsPage />} />
         <Route path="/now-playing" element={<NowPlaying />} />
         <Route path="/show-schedule" element={<ShowSchedule />} />
-        <Route path="/community-connections" element={<CommunityConnections />} />
+        <Route
+          path="/community-connections"
+          element={<CommunityConnections />}
+        />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/events" element={<Events />} />
       </Routes>
+
       <Footer />
       <CookieBanner />
     </>
@@ -73,7 +79,6 @@ function App() {
 
       <AdminAuthProvider>
         <Routes>
-          {/* ── Hidden Admin Routes ──────────────────────────── */}
           <Route path={`${ADMIN_BASE}/login`} element={<AdminLogin />} />
 
           <Route
@@ -85,10 +90,10 @@ function App() {
             }
           >
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="dashboard/:eventId" element={<AdminDashboard />} />
             <Route path="events" element={<AdminEvents />} />
           </Route>
 
-          {/* ── Public App ───────────────────────────────────── */}
           <Route path="/*" element={<PublicLayout />} />
         </Routes>
       </AdminAuthProvider>
