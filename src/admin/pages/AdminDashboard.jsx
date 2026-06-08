@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import { useParams } from 'react-router-dom'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../firebase'
 
 export default function AdminDashboard() {
+  const { eventId } = useParams()
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState('')
   const [orders, setOrders] = useState([])
@@ -10,14 +12,23 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchDashboardData()
-  }, [])
+  }, [eventId])
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
 
-      const ordersSnapshot = await getDocs(collection(db, 'orders'))
-      const ticketTypesSnapshot = await getDocs(collection(db, 'ticket_types'))
+      const ordersRef = collection(db, 'orders')
+      const ticketTypesRef = collection(db, 'ticket_types')
+      const ordersQuery = eventId
+        ? query(ordersRef, where('event_id', '==', eventId))
+        : ordersRef
+      const ticketTypesQuery = eventId
+        ? query(ticketTypesRef, where('event_id', '==', eventId))
+        : ticketTypesRef
+
+      const ordersSnapshot = await getDocs(ordersQuery)
+      const ticketTypesSnapshot = await getDocs(ticketTypesQuery)
 
       setOrders(
         ordersSnapshot.docs.map((doc) => ({
@@ -131,7 +142,9 @@ export default function AdminDashboard() {
     <div className="px-8 py-6 bg-white min-h-screen text-gray-900">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Overview</h1>
+          <h1 className="text-2xl font-bold">
+            {eventId ? 'Event Dashboard' : 'Overview'}
+          </h1>
 
           <p className="text-xs text-gray-500 mt-1">
             Last updated at: {lastUpdated}
@@ -311,6 +324,7 @@ function SummaryRow({ label, value, total, color }) {
       <span>
         {value} ({percentage}%)
       </span>
-    </div>
+    </div>  
   )
 }
+  

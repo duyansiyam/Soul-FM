@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   collection,
-  getDocs,
   deleteDoc,
   doc,
-  query,
-  orderBy,
+  getDocs,
 } from 'firebase/firestore'
 import { db } from '../../firebase'
 
 const BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
+
+const EVENT_SECTIONS = [
+  { label: 'Dashboard', path: (eventId) => `${BASE}/dashboard/${eventId}` },
+  { label: 'Event Details', path: (eventId) => `${BASE}/event-details/${eventId}` },
+  { label: 'Ticket Types', path: (eventId) => `${BASE}/ticket-types/${eventId}` },
+  { label: 'Orders', path: (eventId) => `${BASE}/orders/${eventId}` },
+]
 
 export default function AdminEvents() {
   const navigate = useNavigate()
@@ -25,17 +30,14 @@ export default function AdminEvents() {
     setFetchErr('')
 
     try {
-      const eventsQuery = query(
-        collection(db, 'events'),
-        orderBy('event_date', 'asc')
-      )
+      const snapshot = await getDocs(collection(db, 'events'))
 
-      const snapshot = await getDocs(eventsQuery)
-
-      const data = snapshot.docs.map((docSnap) => ({
-        id: docSnap.id,
-        ...docSnap.data(),
-      }))
+      const data = snapshot.docs
+        .map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
+        }))
+        .sort((a, b) => getDateValue(a.event_date || a.start_date) - getDateValue(b.event_date || b.start_date))
 
       setEvents(data)
     } catch (error) {
@@ -62,24 +64,6 @@ export default function AdminEvents() {
     return matchStatus && matchCategory
   })
 
-  const formatDate = (dateValue) => {
-    if (!dateValue) return 'Date TBA'
-
-    const date = dateValue?.toDate ? dateValue.toDate() : new Date(dateValue)
-
-    return date.toLocaleString('en-PH', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
-
-  const goToDashboard = (event) => {
-    navigate(`${BASE}/dashboard/${event.id}`)
-  }
-
   const handleDelete = async (eventId) => {
     const confirmDelete = window.confirm('Delete this event?')
 
@@ -103,7 +87,7 @@ export default function AdminEvents() {
           </p>
 
           <h1 className="text-2xl font-bold text-gray-900">
-            Events
+            All Events
           </h1>
         </div>
 
@@ -125,7 +109,7 @@ export default function AdminEvents() {
 
           <input
             className="text-sm border border-gray-300 rounded-lg px-3 py-2 text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
-            placeholder="Filter by category…"
+            placeholder="Filter by category..."
             value={filters.category}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, category: e.target.value }))
@@ -133,6 +117,7 @@ export default function AdminEvents() {
           />
 
           <button
+            onClick={() => navigate(`${BASE}/event-details`)}
             className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition uppercase tracking-wide"
           >
             + New Event
@@ -142,21 +127,20 @@ export default function AdminEvents() {
 
       {fetchErr && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 flex items-center gap-2 mb-4">
-          <span>⚠</span>
           <span>{fetchErr}</span>
         </div>
       )}
 
       <p className="text-xs text-gray-400 mb-3 uppercase tracking-wide">
         {fetching
-          ? 'Loading…'
+          ? 'Loading...'
           : `${filteredEvents.length} event${filteredEvents.length !== 1 ? 's' : ''} found`}
       </p>
 
       <div className="space-y-4">
         {fetching ? (
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-16 text-center text-sm text-gray-400">
-            Loading events…
+            Loading events...
           </div>
         ) : filteredEvents.length === 0 ? (
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-16 text-center text-sm text-gray-400">
@@ -166,67 +150,87 @@ export default function AdminEvents() {
           filteredEvents.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center justify-between gap-5 hover:shadow-md transition"
+              className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition"
             >
-              <div className="flex items-center gap-4 min-w-0">
-                <div className="w-20 h-28 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                  {event.poster_image ? (
-                    <img
-                      src={event.poster_image}
-                      alt={event.title || 'Event poster'}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
-                      No Image
-                    </div>
-                  )}
-                </div>
-
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-sm font-bold text-gray-900">
-                      {event.title || 'Untitled Event'}
-                    </h2>
-
-                    <span className="px-2 py-0.5 rounded-full text-xs border border-green-300 bg-green-50 text-green-700">
-                      ● {event.status || 'Published'}
-                    </span>
+              <div className="p-5 flex items-center justify-between gap-5">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-20 h-28 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                    {event.poster_image ? (
+                      <img
+                        src={event.poster_image}
+                        alt={event.title || 'Event poster'}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                        No Image
+                      </div>
+                    )}
                   </div>
 
-                  <p className="text-xs text-gray-600 mt-4">
-                    ● {formatDate(event.event_date)}
-                  </p>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="text-sm font-bold text-gray-900">
+                        {event.title || 'Untitled Event'}
+                      </h2>
 
-                  <p className="text-xs text-gray-600 mt-2">
-                    📍 {event.venue?.name || event.location_address || 'Venue TBA'}
-                  </p>
+                      <span className="px-2 py-0.5 rounded-full text-xs border border-green-300 bg-green-50 text-green-700">
+                        {event.status || 'Published'}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-gray-600 mt-4">
+                      {formatDate(event.event_date || event.start_date)}
+                    </p>
+
+                    <p className="text-xs text-gray-600 mt-2">
+                      {event.location_name || event.venue_name || event.venue_address || 'Venue TBA'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => navigate(`${BASE}/dashboard/${event.id}`)}
+                    className="rounded-lg border border-sky-200 px-3 py-2 text-xs font-bold uppercase tracking-wide text-sky-600 hover:bg-sky-50"
+                  >
+                    Open
+                  </button>
+
+                  <button
+                    onClick={() => navigate(`${BASE}/event-details/${event.id}`)}
+                    className="rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold uppercase tracking-wide text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(event.id)}
+                    className="rounded-lg border border-red-100 px-3 py-2 text-xs font-bold uppercase tracking-wide text-red-500 hover:bg-red-50"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 shrink-0">
-                <button
-                  onClick={() => goToDashboard(event)}
-                  className="text-sky-500 hover:text-sky-700 text-lg"
-                  title="Event Dashboard"
-                >
-                  ▣
-                </button>
+              <div className="border-t border-gray-100 bg-gray-50/80 px-5 py-4">
+                <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                  Event Sections
+                </p>
 
-                <button
-                  className="text-gray-500 hover:text-blue-600 text-lg"
-                  title="Edit Event"
-                >
-                  ✎
-                </button>
-
-                <button
-                  onClick={() => handleDelete(event.id)}
-                  className="text-gray-500 hover:text-red-600 text-lg"
-                  title="Delete Event"
-                >
-                  🗑
-                </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                  {EVENT_SECTIONS.map((section) => (
+                    <button
+                      key={section.label}
+                      type="button"
+                      onClick={() => navigate(section.path(event.id))}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 text-left text-sm font-semibold text-gray-700 hover:border-sky-300 hover:text-sky-600 hover:bg-sky-50 transition"
+                    >
+                      <span>{section.label}</span>
+                      <span className="text-gray-300">/</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           ))
@@ -234,4 +238,26 @@ export default function AdminEvents() {
       </div>
     </div>
   )
+}
+
+function formatDate(dateValue) {
+  if (!dateValue) return 'Date TBA'
+
+  const date = dateValue?.toDate ? dateValue.toDate() : new Date(dateValue)
+
+  if (Number.isNaN(date.getTime())) return 'Date TBA'
+
+  return date.toLocaleString('en-PH', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
+function getDateValue(dateValue) {
+  if (!dateValue) return Number.MAX_SAFE_INTEGER
+
+  const date = dateValue?.toDate ? dateValue.toDate() : new Date(dateValue)
+
+  return Number.isNaN(date.getTime()) ? Number.MAX_SAFE_INTEGER : date.getTime()
 }

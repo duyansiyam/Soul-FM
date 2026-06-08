@@ -1,8 +1,5 @@
 import { useState } from 'react'
 import TicketForm from './TicketForm'
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../firebase'
-
 
 function EventCard({ event }) {
   const {
@@ -48,6 +45,7 @@ function EventCard({ event }) {
     safeTickets.length > 0
       ? safeTickets.every((t) => !t.available)
       : false
+  const hasTickets = safeTickets.length > 0
 
   const isFree = lowestPrice === 0
 
@@ -153,15 +151,17 @@ function EventCard({ event }) {
 
           <button
             type="button"
-            disabled={soldOut || allUnavailable}
+            disabled={soldOut || allUnavailable || !hasTickets}
             onClick={() => setShowForm(true)}
             className={`mt-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-[11px] tracking-widest uppercase font-semibold border transition-all duration-200 ease-out ${
-              soldOut || allUnavailable
+              soldOut || allUnavailable || !hasTickets
                 ? 'cursor-not-allowed opacity-30 text-black border-black/20 bg-transparent'
                 : 'text-white bg-black border-black hover:bg-(--color-soul-accent) hover:border-(--color-soul-accent) cursor-pointer'
             }`}
           >
-            {soldOut || allUnavailable
+            {!hasTickets
+              ? 'Tickets Coming Soon'
+              : soldOut || allUnavailable
               ? 'Sold Out'
               : isFree
               ? 'Register Free'

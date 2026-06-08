@@ -1,63 +1,77 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import {
+  CalendarDays,
+  Edit3,
+  Grid2X2,
+  LayoutDashboard,
+  Settings,
+  ShoppingCart,
+  Ticket,
+  Users,
+} from 'lucide-react'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAdminAuth } from '../context/AdminAuthContext'
 
 const BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
-const NAV_ITEMS = [
-  {
-    label: 'All Events',
-    icon: '⌂',
-    path: `${BASE}/events`,
-  },
-
-  {
-    label: 'Event Dashboard',
-    icon: '▣',
-    path: `${BASE}/dashboard`,
-  },
-
-  {
-    label: 'Orders',
-    icon: '▤',
-    path: `${BASE}/orders`,
-  },
-
-  {
-    label: 'Users',
-    icon: '◉',
-    path: `${BASE}/users`,
-  },
-
-  {
-    divider: true,
-  },
-
-  {
-    label: 'Event Details',
-    icon: '✎',
-    path: `${BASE}/event-details`,
-  },
-
-  {
-    label: 'Ticket Types',
-    icon: '▦',
-    path: `${BASE}/ticket-types`,
-  },
-
-  {
-    divider: true,
-  },
-
-  {
-    label: 'Settings',
-    icon: '⚙',
-    path: `${BASE}/settings`,
-  },
-]
-
 export default function AdminSidebar() {
   const { admin, logout } = useAdminAuth()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { eventId } = useParams()
+
+  const hasSelectedEvent = Boolean(eventId)
+  const isCreatingEvent = pathname === `${BASE}/event-details`
+  const isLooseTicketTypes = pathname === `${BASE}/ticket-types`
+  const showEventSetup = hasSelectedEvent || isCreatingEvent || isLooseTicketTypes
+
+  const navItems = [
+    {
+      label: 'All Events',
+      icon: CalendarDays,
+      path: `${BASE}/events`,
+    },
+    {
+      divider: true,
+      hidden: !showEventSetup,
+    },
+    {
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+      path: hasSelectedEvent ? `${BASE}/dashboard/${eventId}` : `${BASE}/events`,
+      hidden: !hasSelectedEvent,
+    },
+    {
+      label: 'Orders',
+      icon: ShoppingCart,
+      path: hasSelectedEvent ? `${BASE}/orders/${eventId}` : `${BASE}/events`,
+      hidden: !hasSelectedEvent,
+    },
+    {
+      label: 'Event Details',
+      icon: Edit3,
+      path: hasSelectedEvent ? `${BASE}/event-details/${eventId}` : `${BASE}/event-details`,
+      hidden: !showEventSetup,
+    },
+    {
+      label: 'Ticket Types',
+      icon: Grid2X2,
+      path: hasSelectedEvent ? `${BASE}/ticket-types/${eventId}` : `${BASE}/ticket-types`,
+      hidden: !showEventSetup,
+    },
+    {
+      divider: true,
+    },
+    {
+      label: 'Users',
+      icon: Users,
+      path: `${BASE}/users`,
+    },
+    {
+      label: 'Settings',
+      icon: Settings,
+      path: `${BASE}/settings`,
+    },
+  ]
 
   const handleLogout = async () => {
     await logout()
@@ -66,7 +80,6 @@ export default function AdminSidebar() {
 
   return (
     <aside className="w-[240px] min-h-screen bg-white border-r border-gray-200 flex flex-col fixed top-0 left-0 bottom-0 z-50">
-      {/* Logo */}
       <div className="px-6 py-7 border-b border-gray-200">
         <div className="text-xs font-semibold text-sky-500 uppercase tracking-widest mb-1">
           Admin Panel
@@ -75,45 +88,50 @@ export default function AdminSidebar() {
         <div className="text-base font-bold text-gray-900">
           TicketMgr
         </div>
+
+        {!hasSelectedEvent && !isCreatingEvent && !isLooseTicketTypes && (
+          <p className="text-xs text-gray-400 mt-2 leading-relaxed">
+            Select an event first to open dashboard, orders, and ticket types.
+          </p>
+        )}
       </div>
 
-      {/* Navigation */}
       <ul className="flex-1 py-4 list-none">
-        {NAV_ITEMS.map((item, index) => {
-          if (item.divider) {
+        {navItems
+          .filter((item) => !item.hidden)
+          .map((item, index) => {
+            if (item.divider) {
+              return (
+                <li
+                  key={`divider-${index}`}
+                  className="mx-4 my-3 border-t border-gray-200"
+                />
+              )
+            }
+
+            const Icon = item.icon || Ticket
+
             return (
-              <li
-                key={`divider-${index}`}
-                className="mx-4 my-3 border-t border-gray-200"
-              />
+              <li key={item.label}>
+                <NavLink
+                  to={item.path}
+                  end
+                  className={({ isActive }) =>
+                    `mx-3 mb-1 flex items-center gap-3 rounded-lg px-4 py-3 text-sm no-underline transition-all ${
+                      isActive
+                        ? 'bg-sky-600 text-white font-bold shadow-sm ring-1 ring-sky-700'
+                        : 'text-gray-800 hover:bg-sky-50 hover:text-sky-700'
+                    }`
+                  }
+                >
+                  <Icon size={15} strokeWidth={2.4} className="shrink-0" />
+                  <span>{item.label}</span>
+                </NavLink>
+              </li>
             )
-          }
-
-          return (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                end
-                className={({ isActive }) =>
-                  `mx-3 mb-1 flex items-center gap-3 rounded-lg px-4 py-3 text-sm no-underline transition-all ${
-                    isActive
-                      ? 'bg-sky-400 text-white font-semibold'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                  }`
-                }
-              >
-                <span className="w-5 text-center text-base">
-                  {item.icon}
-                </span>
-
-                <span>{item.label}</span>
-              </NavLink>
-            </li>
-          )
-        })}
+          })}
       </ul>
 
-      {/* User */}
       <div className="px-6 py-4 border-t border-gray-200">
         <div className="text-xs text-gray-500 uppercase tracking-widest mb-1">
           Logged In As
