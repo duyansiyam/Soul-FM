@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAdminAuth } from '../context/AdminAuthContext'
+import { useSelectedEvent } from '../context/AdminSelectedEventContext'
 
 const BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
@@ -18,6 +19,7 @@ export default function AdminSidebar() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { eventId } = useParams()
+const { selectedEvent } = useSelectedEvent() ?? {}
 
   const hasSelectedEvent = Boolean(eventId)
   const isCreatingEvent = pathname === `${BASE}/event-details`
@@ -26,24 +28,30 @@ export default function AdminSidebar() {
 
   const navItems = [
     {
+      label: 'Overview',
+      icon: LayoutDashboard,
+      path: `${BASE}/dashboard`,
+    },
+    {
       label: 'All Events',
       icon: CalendarDays,
       path: `${BASE}/events`,
     },
     {
       divider: true,
+      id: 'event-section',
       hidden: !showEventSetup,
     },
     {
       label: 'Dashboard',
       icon: LayoutDashboard,
-      path: hasSelectedEvent ? `${BASE}/dashboard/${eventId}` : `${BASE}/events`,
+      path: `${BASE}/dashboard/${eventId}`,
       hidden: !hasSelectedEvent,
     },
     {
       label: 'Orders',
       icon: ShoppingCart,
-      path: hasSelectedEvent ? `${BASE}/orders/${eventId}` : `${BASE}/events`,
+      path: `${BASE}/orders/${eventId}`,
       hidden: !hasSelectedEvent,
     },
     {
@@ -79,7 +87,7 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="w-[240px] min-h-screen bg-white border-r border-gray-200 flex flex-col fixed top-0 left-0 bottom-0 z-50">
+    <aside className="w-60 min-h-screen bg-white border-r border-gray-200 flex flex-col fixed top-0 left-0 bottom-0 z-50">
       <div className="px-6 py-7 border-b border-gray-200">
         <div className="text-xs font-semibold text-sky-500 uppercase tracking-widest mb-1">
           Admin Panel
@@ -91,7 +99,7 @@ export default function AdminSidebar() {
 
         {!hasSelectedEvent && !isCreatingEvent && !isLooseTicketTypes && (
           <p className="text-xs text-gray-400 mt-2 leading-relaxed">
-            Select an event first to open dashboard, orders, and ticket types.
+            Select an event to open its dashboard, orders, and ticket types.
           </p>
         )}
       </div>
@@ -102,10 +110,17 @@ export default function AdminSidebar() {
           .map((item, index) => {
             if (item.divider) {
               return (
-                <li
-                  key={`divider-${index}`}
-                  className="mx-4 my-3 border-t border-gray-200"
-                />
+                <li key={`divider-${index}`}>
+                  <div className="mx-4 my-3 border-t border-gray-200" />
+                  {item.id === 'event-section' && hasSelectedEvent && selectedEvent?.name && (
+                    <div className="mx-4 mb-2 px-1 flex items-center gap-1.5">
+                      <Ticket size={11} className="text-sky-400 shrink-0" />
+                      <span className="text-xs font-semibold text-sky-500 uppercase tracking-widest truncate">
+                        {selectedEvent.name}
+                      </span>
+                    </div>
+                  )}
+                </li>
               )
             }
 

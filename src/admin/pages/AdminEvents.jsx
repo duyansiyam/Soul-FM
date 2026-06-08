@@ -7,6 +7,7 @@ import {
   getDocs,
 } from 'firebase/firestore'
 import { db } from '../../firebase'
+import { useSelectedEvent } from '../context/AdminSelectedEventContext'
 
 const BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
@@ -19,7 +20,8 @@ const EVENT_SECTIONS = [
 
 export default function AdminEvents() {
   const navigate = useNavigate()
-
+  const { setSelectedEvent } = useSelectedEvent() ?? {}
+  
   const [events, setEvents] = useState([])
   const [fetching, setFetching] = useState(true)
   const [fetchErr, setFetchErr] = useState('')
@@ -71,6 +73,7 @@ export default function AdminEvents() {
 
     try {
       await deleteDoc(doc(db, 'events', eventId))
+      setSelectedEvent(null)
       fetchEvents()
     } catch (error) {
       console.log(error)
@@ -191,7 +194,10 @@ export default function AdminEvents() {
 
                 <div className="flex items-center gap-3 shrink-0">
                   <button
-                    onClick={() => navigate(`${BASE}/dashboard/${event.id}`)}
+                    onClick={() => {
+                      setSelectedEvent({ id: event.id, name: event.title })
+                      navigate(`${BASE}/dashboard/${event.id}`)
+                    }}
                     className="rounded-lg border border-sky-200 px-3 py-2 text-xs font-bold uppercase tracking-wide text-sky-600 hover:bg-sky-50"
                   >
                     Open
@@ -223,7 +229,10 @@ export default function AdminEvents() {
                     <button
                       key={section.label}
                       type="button"
-                      onClick={() => navigate(section.path(event.id))}
+                      onClick={() => {
+                        setSelectedEvent({ id: event.id, name: event.title })
+                        navigate(section.path(event.id))
+                      }}
                       className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 text-left text-sm font-semibold text-gray-700 hover:border-sky-300 hover:text-sky-600 hover:bg-sky-50 transition"
                     >
                       <span>{section.label}</span>

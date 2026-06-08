@@ -20,8 +20,9 @@ import Events from './pages/Events'
 import { AdminAuthProvider } from './admin/context/AdminAuthContext'
 import AdminProtectedRoute from './admin/components/AdminProtectedRoute'
 import AdminLayout from './admin/components/AdminLayout'
-
+import { SelectedEventProvider } from './admin/context/AdminSelectedEventContext'
 import AdminLogin from './admin/pages/AdminLogin'
+import AdminOverview from './admin/pages/AdminOverview'
 import AdminDashboard from './admin/pages/AdminDashboard'
 import AdminEvents from './admin/pages/AdminEvents'
 import AdminEventDetails from './admin/pages/AdminEventDetails'
@@ -67,8 +68,10 @@ function PublicLayout() {
 
 function AdminPage({ children }) {
   return (
-    <AdminProtectedRoute>
-      <AdminLayout>{children}</AdminLayout>
+      <AdminProtectedRoute>
+      <SelectedEventProvider>
+        <AdminLayout>{children}</AdminLayout>
+      </SelectedEventProvider>
     </AdminProtectedRoute>
   )
 }
@@ -94,22 +97,23 @@ function App() {
           {/* Admin Login */}
           <Route path={`${ADMIN_BASE}/login`} element={<AdminLogin />} />
 
-          {/* Admin Redirect */}
+          {/* Admin root redirect → Overview */}
           <Route
             path={ADMIN_BASE}
             element={<Navigate to={`${ADMIN_BASE}/dashboard`} replace />}
           />
 
-          {/* Admin Pages */}
+          {/* Overview: aggregate stats across all events */}
           <Route
             path={`${ADMIN_BASE}/dashboard`}
             element={
               <AdminPage>
-                <AdminDashboard />
+                <AdminOverview />
               </AdminPage>
             }
           />
 
+          {/* Event Dashboard: scoped to a specific event */}
           <Route
             path={`${ADMIN_BASE}/dashboard/:eventId`}
             element={
@@ -127,50 +131,51 @@ function App() {
               </AdminPage>
             }
           />
-          <Route
-  path={`${ADMIN_BASE}/event-details`}
-  element={
-    <AdminPage>
-      <AdminEventDetails />
-    </AdminPage>
-  }
-/>
 
           <Route
-  path={`${ADMIN_BASE}/event-details/:eventId`}
-  element={
-    <AdminPage>
-      <AdminEventDetails />
-    </AdminPage>
-  }
-/>
+            path={`${ADMIN_BASE}/event-details`}
+            element={
+              <AdminPage>
+                <AdminEventDetails />
+              </AdminPage>
+            }
+          />
 
-<Route
-  path={`${ADMIN_BASE}/ticket-types/:eventId`}
-  element={
-    <AdminPage>
-      <AdminTicketType />
-    </AdminPage>
-  }
-/>
+          <Route
+            path={`${ADMIN_BASE}/event-details/:eventId`}
+            element={
+              <AdminPage>
+                <AdminEventDetails />
+              </AdminPage>
+            }
+          />
 
-<Route
-  path={`${ADMIN_BASE}/ticket-types`}
-  element={
-    <AdminPage>
-      <AdminTicketType />
-    </AdminPage>
-  }
-/>
+          <Route
+            path={`${ADMIN_BASE}/ticket-types`}
+            element={
+              <AdminPage>
+                <AdminTicketType />
+              </AdminPage>
+            }
+          />
 
-<Route
-  path={`${ADMIN_BASE}/orders/:eventId`}
-  element={
-    <AdminPage>
-      <AdminOrders />
-    </AdminPage>
-  }
-/>
+          <Route
+            path={`${ADMIN_BASE}/ticket-types/:eventId`}
+            element={
+              <AdminPage>
+                <AdminTicketType />
+              </AdminPage>
+            }
+          />
+
+          <Route
+            path={`${ADMIN_BASE}/orders/:eventId`}
+            element={
+              <AdminPage>
+                <AdminOrders />
+              </AdminPage>
+            }
+          />
 
           <Route
             path={`${ADMIN_BASE}/users`}
