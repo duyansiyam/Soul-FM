@@ -2,10 +2,9 @@ import AdminSidebar from './AdminSidebar'
 
 export default function AdminLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0f1420]">
       <AdminSidebar />
-
-      <main className="ml-[240px] min-h-screen bg-gray-50">
+      <main className="ml-56 min-h-screen">
         {children}
       </main>
     </div>
