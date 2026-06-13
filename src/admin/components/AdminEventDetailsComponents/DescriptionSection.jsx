@@ -9,8 +9,8 @@ export default function DescriptionSection({ descriptionRef, runCommand, updateF
         subtitle="Share your story and highlights so attendees can learn more."
       />
 
-      <div className="rounded-xl border border-gray-300 overflow-hidden bg-white">
-        <div className="flex flex-wrap items-center gap-1 border-b border-gray-200 px-4 py-3 text-gray-600">
+      <div className="rounded-xl border border-slate-200 overflow-hidden bg-white">
+        <div className="flex flex-wrap items-center gap-1 border-b border-slate-200 px-4 py-3 text-slate-600">
           <ToolbarButton onClick={() => runCommand('bold')}>B</ToolbarButton>
           <ToolbarButton onClick={() => runCommand('italic')}>i</ToolbarButton>
           <ToolbarButton onClick={() => runCommand('underline')}>U</ToolbarButton>
@@ -37,7 +37,7 @@ export default function DescriptionSection({ descriptionRef, runCommand, updateF
           ref={descriptionRef}
           contentEditable
           onInput={(e) => updateForm('description', e.currentTarget.innerHTML)}
-          className="min-h-55 w-full p-4 outline-none text-gray-700 font-normal"
+          className="min-h-56 w-full p-4 outline-none text-slate-700 font-normal"
           data-placeholder="Write event description..."
         />
       </div>

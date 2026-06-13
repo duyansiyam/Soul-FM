@@ -7,7 +7,6 @@ import {
   Settings,
   ShoppingCart,
   Ticket,
-  Users,
 } from 'lucide-react'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAdminAuth } from '../context/AdminAuthContext'
@@ -70,15 +69,11 @@ export default function AdminSidebar() {
     {
       divider: true,
     },
+    
     {
-      label: 'Users',
-      icon: Users,
-      path: `${BASE}/users`,
-    },
-    {
-      label: 'Settings',
+      label: 'Account Settings',
       icon: Settings,
-      path: `${BASE}/settings`,
+      path: `${BASE}/account-settings`,
     },
   ]
 

@@ -29,7 +29,7 @@ import AdminEventDetails from './admin/pages/AdminEventDetails'
 import AdminTicketType from './admin/pages/AdminTicketType'
 import AdminOrders from './admin/pages/AdminOrders'
 import AdminUsers from './admin/pages/AdminUsers'
-import AdminSettings from './admin/pages/AdminSettings'
+import AdminAccountSettings from './admin/pages/AdminAccountSettings'
 
 const ADMIN_BASE = import.meta.env.VITE_ADMIN_BASE || '/xpanel-a9f2'
 
@@ -187,10 +187,10 @@ function App() {
           />
 
           <Route
-            path={`${ADMIN_BASE}/settings`}
+            path={`${ADMIN_BASE}/account-settings`}
             element={
               <AdminPage>
-                <AdminSettings />
+                <AdminAccountSettings />
               </AdminPage>
             }
           />

@@ -38,15 +38,15 @@ export default function DateTimeSection({
         {form.dateTimes.map((item, index) => (
           <div
             key={index}
-            className="flex items-center justify-between rounded-xl border border-sky-400 bg-sky-50/40 px-5 py-4"
+            className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-5 py-4"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-sky-500" />
+              <div className="w-12 h-12 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-sky-500" />
               <div>
-                <p className="font-semibold text-gray-600">
+                <p className="font-semibold text-slate-800">
                   {formatDisplayDate(item.start_date)} – {formatDisplayDate(item.end_date)}
                 </p>
-                <p className="font-semibold text-gray-600 mt-1">
+                <p className="text-sm text-slate-500 mt-1">
                   {formatDisplayTime(item.start_time)} – {formatDisplayTime(item.end_time)}
                 </p>
               </div>
@@ -56,14 +56,14 @@ export default function DateTimeSection({
               <button
                 type="button"
                 onClick={() => onDeleteDateTime(index)}
-                className="font-semibold text-gray-500 hover:text-red-500"
+                className="font-semibold text-slate-500 hover:text-red-500"
               >
                 Delete
               </button>
               <button
                 type="button"
                 onClick={() => onEditDateTime(item, index)}
-                className="font-semibold text-sky-500 hover:text-sky-600"
+                className="font-semibold text-sky-600 hover:text-sky-700"
               >
                 Edit
               </button>

@@ -18,10 +18,10 @@ export default function LocationSection({ form, updateForm, locationType, setLoc
           <button
             type="button"
             onClick={() => setLocationType('venue')}
-            className={`px-8 py-4 rounded-xl border font-semibold ${
+            className={`px-6 py-3 rounded-xl border font-semibold ${
               locationType === 'venue'
-                ? 'border-sky-400 text-sky-500 bg-sky-50'
-                : 'border-gray-200 text-gray-600'
+                ? 'border-sky-400 text-sky-600 bg-sky-50'
+                : 'border-slate-200 text-slate-600 bg-white'
             }`}
           >
             Venue
@@ -30,10 +30,10 @@ export default function LocationSection({ form, updateForm, locationType, setLoc
           <button
             type="button"
             onClick={() => setLocationType('tba')}
-            className={`px-8 py-4 rounded-xl border font-semibold ${
+            className={`px-6 py-3 rounded-xl border font-semibold ${
               locationType === 'tba'
-                ? 'border-sky-400 text-sky-500 bg-sky-50'
-                : 'border-gray-200 text-gray-600'
+                ? 'border-sky-400 text-sky-600 bg-sky-50'
+                : 'border-slate-200 text-slate-600 bg-white'
             }`}
           >
             TBA
@@ -62,7 +62,7 @@ export default function LocationSection({ form, updateForm, locationType, setLoc
               />
             </Field>
 
-            <div className="rounded-xl overflow-hidden border border-gray-200 h-90 bg-gray-100">
+            <div className="rounded-xl overflow-hidden border border-slate-200 h-72 bg-white">
               <iframe
                 title="Event location map"
                 width="100%"
@@ -72,7 +72,7 @@ export default function LocationSection({ form, updateForm, locationType, setLoc
               />
             </div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-500">
               Type the exact location name/address above. The map will update and pin the searched location.
             </p>
           </>

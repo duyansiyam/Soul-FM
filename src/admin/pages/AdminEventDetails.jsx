@@ -27,25 +27,27 @@ export default function AdminEventDetails() {
   } = useEventForm()
 
   return (
-    <div className="min-h-screen bg-gray-50 px-8 py-8 text-gray-700">
+    <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-900">
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-8 max-w-7xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Header bar */}
-          <div className="flex items-center justify-between gap-4 rounded-2xl border border-sky-200 bg-sky-50 px-6 py-5">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-sky-600">Event Setup</p>
-              <h1 className="mt-1 text-2xl font-bold text-gray-900">Event Details</h1>
-            </div>
+          {/* Header bar (styled like AdminOrders) */}
+          <div className="sticky top-0 z-30 bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 pt-4 pb-4 -mx-4">
+            <div className="flex items-center justify-between gap-4 px-4">
+              <div>
+                <p className="text-xs font-semibold tracking-widest uppercase text-sky-500">Event Setup</p>
+                <h1 className="mt-1 text-2xl font-bold text-slate-900">Event Details</h1>
+              </div>
 
-            {eventId && (
-              <button
-                type="button"
-                onClick={() => navigate(`${BASE}/ticket-types/${eventId}`)}
-                className="rounded-lg bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700"
-              >
-                Open Ticket Types
-              </button>
-            )}
+              {eventId && (
+                <button
+                  type="button"
+                  onClick={() => navigate(`${BASE}/ticket-types/${eventId}`)}
+                  className="rounded-lg bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-700"
+                >
+                  Open Ticket Types
+                </button>
+              )}
+            </div>
           </div>
 
           <EventDetailSection
@@ -97,7 +99,7 @@ export default function AdminEventDetails() {
 
         {/* Sidebar shortcuts */}
         <aside className="hidden xl:block">
-          <div className="sticky top-8 bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <div className="sticky top-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <Shortcut href="#event-detail" active title="Event detail" text="Add all of your event details." />
             <Shortcut href="#date-time" title="Date and Time" text="Keep your event-goers informed about timings." />
             <Shortcut href="#location" title="Location" text="Inform attendees where your event is held." />
