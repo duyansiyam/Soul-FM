@@ -3,11 +3,16 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../firebase'
 import EventCard from '../components/EventsComponents/EventCard.jsx'
 
+// Keep the finished event listing ready to re-enable when the section launches.
+const EVENTS_COMING_SOON = true
+
 function Events() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (EVENTS_COMING_SOON) return
+
     const fetchEvents = async () => {
       try {
         const [eventsSnapshot, ticketTypesSnapshot] = await Promise.all([
@@ -47,6 +52,31 @@ function Events() {
 
   const upcoming = events.filter((e) => !e.soldOut)
   const soldOut = events.filter((e) => e.soldOut)
+
+  if (EVENTS_COMING_SOON) {
+    return (
+      <main className="relative min-h-screen overflow-hidden bg-white px-6 pb-24 pt-28 text-black lg:px-10">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[320px] bg-gradient-to-b from-black/80 via-black/20 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[700px] rounded-full bg-pink-200/40 blur-[150px]" />
+        <div className="pointer-events-none absolute left-1/2 top-[120px] h-[300px] w-[900px] -translate-x-1/2 rounded-full bg-white/80 blur-[120px]" />
+
+        <div className="relative mx-auto flex min-h-[65vh] max-w-7xl items-center justify-center">
+          <div className="max-w-xl text-center">
+            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-red-600">
+              Events
+            </p>
+            <h1 className="mb-5 text-4xl font-bold leading-none tracking-tight text-black sm:text-6xl">
+              Coming soon
+            </h1>
+            <p className="mx-auto max-w-md text-base leading-relaxed text-black/55">
+              We&apos;re getting something special ready. Check back soon for
+              upcoming SoulFM events and live experiences.
+            </p>
+          </div>
+        </div>
+      </main>
+    )
+  }
 
   if (loading) {
     return (
