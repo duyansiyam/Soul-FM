@@ -6,32 +6,22 @@ const vinylImgUrl =
 
 const weekdayShows = [
   {
-    time: '5:00 AM – 6:30 AM',
-    title: 'Waxx in the Morning',
-    host: 'Morning Show',
+    time: '6:00 PM – 8:00 PM PHT',
+    title: 'Joy Monday',
+    host: 'DJ Ajoy',
+    schedule: 'Monday, Wednesday & Friday',
+    time: '6:00 PM – 8:00 PM',
     description:
-      'Start your day with classic R&B energy, feel-good tracks, and smooth morning vibes.',
+      'An uplifting evening show to bring joyful energy to your week.',
   },
   {
-    time: '12:00 PM – 3:00 PM',
-    title: 'Bringing Back the Heartbeat of Soul',
-    host: 'Midday Show',
+    time: '5:00 PM – 8:00 PM US Time',
+    title: 'The Evening Drive',
+    host: 'DJ Waxx & Tase Bud',
+    schedule: 'Monday to Friday',
+    time: '5:00 PM – 8:00 PM US Time',
     description:
-      'A nostalgic mix of timeless soul and R&B favorites to keep your afternoon moving.',
-  },
-  {
-    time: '3:00 PM – 6:00 PM',
-    title: 'Adventures with Auntie Soul',
-    host: 'Afternoon Show',
-    description:
-      'A lively blend of music, personality, and community-centered entertainment.',
-  },
-  {
-    time: '6:00 PM – 9:00 PM',
-    title: 'Principal P the MC',
-    host: 'Evening Show',
-    description:
-      'Wind down with engaging commentary, rich grooves, and crowd-favorite classics.',
+      'Your weekday ride home with DJ Waxx and Tase Bud.',
   },
 ]
 
@@ -122,7 +112,7 @@ function RedDivider() {
   )
 }
 
-function ScheduleCard({ time, title, host, description, delay = 0 }) {
+function ScheduleCard({ time, schedule, title, host, description, delay = 0 }) {
   const [ref, visible] = useInView(0.12)
 
   return (
@@ -142,6 +132,10 @@ function ScheduleCard({ time, title, host, description, delay = 0 }) {
       <div className="relative z-10">
         <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-white/80">
           {time}
+        </p>
+
+        <p className="mb-3 text-[10px] font-light uppercase tracking-[0.16em] text-white/70">
+          {schedule}
         </p>
 
         <h3
@@ -389,7 +383,7 @@ export default function ShowSchedule() {
 
         <div className="relative z-10 mb-12 flex flex-wrap items-end justify-between gap-6 lg:mb-16">
           <div style={reveal(weekVisible, 0, 24)}>
-            <SectionLabel>Monday to Friday</SectionLabel>
+            <SectionLabel>Weekly Schedule</SectionLabel>
             <RedDivider />
             <SectionHeading>
               Weekday
@@ -402,12 +396,12 @@ export default function ShowSchedule() {
             style={reveal(weekVisible, 140, 24)}
             className="max-w-md text-[13px] font-light leading-[1.85] text-white/30"
           >
-            A full lineup of smooth classics, live personalities, and engaging
-            on-air experiences throughout the day.
+            Tune in for two soulful programs featuring live personalities and
+            smooth sounds throughout the week.
           </p>
         </div>
 
-        <div className="relative z-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="relative z-10 grid grid-cols-1 gap-3 md:grid-cols-2">
           {weekdayShows.map((show, i) => (
             <ScheduleCard key={`${show.title}-${show.time}`} {...show} delay={i * 90} />
           ))}
